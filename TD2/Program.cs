@@ -55,7 +55,7 @@ namespace TD_2
                                     break;
 
                                 case 4:
-                                    int val = Convert.ToInt32(Console.ReadLine());
+                                    double val = Convert.ToInt32(Console.ReadLine());
                                     image1.Rotation(val);
                                     break;
 
@@ -114,13 +114,13 @@ namespace TD_2
                                     break;
 
                                 case 4:
-                                    int val = Convert.ToInt32(Console.ReadLine());
+                                    double val = Convert.ToInt32(Console.ReadLine());
                                     image2.Rotation(val);
                                     break;
 
                                 case 5:
                                     Console.Write("Veuillez saisir le pourcentage pour agrandir ou réduire votre image -> ");
-                                    int pourcentage = Convert.ToInt32(Console.ReadLine());
+                                    double pourcentage = Convert.ToInt32(Console.ReadLine());
                                     image2.AgrandissementRetrecissement(pourcentage);
                                     break;
 
@@ -173,13 +173,13 @@ namespace TD_2
                                     break;
 
                                 case 4:
-                                    int val = Convert.ToInt32(Console.ReadLine());
+                                    double val = Convert.ToInt32(Console.ReadLine());
                                     image3.Rotation(val);
                                     break;
 
                                 case 5:
                                     Console.Write("Veuillez saisir le pourcentage pour agrandir ou réduire votre image -> ");
-                                    int pourcentage = Convert.ToInt32(Console.ReadLine());
+                                    double pourcentage = Convert.ToInt32(Console.ReadLine());
                                     image3.AgrandissementRetrecissement(pourcentage);
                                     break;
 
@@ -232,13 +232,13 @@ namespace TD_2
                                     break;
 
                                 case 4:
-                                    int val = Convert.ToInt32(Console.ReadLine());
+                                    double val = Convert.ToInt32(Console.ReadLine());
                                     image4.Rotation(val);
                                     break;
 
                                 case 5:
                                     Console.Write("Veuillez saisir le pourcentage pour agrandir ou réduire votre image -> ");
-                                    int pourcentage = Convert.ToInt32(Console.ReadLine());
+                                    double pourcentage = Convert.ToInt32(Console.ReadLine());
                                     image4.AgrandissementRetrecissement(pourcentage);
                                     break;
 
@@ -263,7 +263,6 @@ namespace TD_2
             } while (cki.Key != ConsoleKey.Escape);
             Console.WriteLine("BBonne continuation !");
             Console.ReadKey();
-            //Oui
         }
     }
 }
