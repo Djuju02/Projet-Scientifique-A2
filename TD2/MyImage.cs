@@ -191,6 +191,7 @@ namespace TD_2
             for (int i = 2; i <= 5; i++)
             {
                 filefinal[i] = ConvTaille_fichier[compteur1];
+
                 compteur1++;
             }
 
@@ -251,6 +252,7 @@ namespace TD_2
             //Cases 30 à 53
             for (int i = 30; i <= 53; i++)
             {
+
                 filefinal[i] = fileorigin[i];
             }
 
@@ -299,7 +301,7 @@ namespace TD_2
             From_Image_To_File(filename);
         }
 
-        public void Blanc_noir()
+        public void Blanc_noir() 
         {
             for (int i = 0; i < GetHauteur; i++)
             {
@@ -328,27 +330,65 @@ namespace TD_2
             From_Image_To_File(filename);
         }
 
-        public void AgrandissementRetrecissement(int pourcentage)
+        public void AgrandissementRetrecissement(double pourcentage)
         {
-            int[,] newmatrice_image_RGB = new int[GetHauteur * pourcentage, GetLargeur * 3 * pourcentage];
+            int newhauteur = Convert.ToInt32(GetHauteur*pourcentage);
+            int newlargeur = Convert.ToInt32(GetLargeur*pourcentage);
+            int modulo = 0;
 
+            if(newlargeur % 4 != 0)
+            {
+                int différence = newlargeur/4;
+                int reste = newlargeur-4*différence;
+                modulo = 4 - reste;
+                newlargeur = newlargeur + modulo;
+            }
+
+            Pixel[,] newmatrice_image_RGB = new Pixel[newhauteur + modulo, newlargeur];
+            Pixel p = new Pixel(0, 0, 0);
+
+            for (int i = 0; i < newhauteur; i++)
+            {
+                for (int j = 0; j < newlargeur-modulo; j++)
+                {
+                    int div1 = Convert.ToInt32(i/pourcentage);
+                    int div2 = Convert.ToInt32(j / pourcentage);
+                    if (div1 >= GetHauteur) div1 = GetHauteur - 1;
+                    if (div2 >= GetLargeur) div2 = GetLargeur -1;
+                    newmatrice_image_RGB[i, j] = GetMatrice_image_RGB[div1, div2];
+                }
+                for (int j = 1; j <= modulo; j++)
+                {
+                    newmatrice_image_RGB[i, newlargeur + j - 1] = p;
+                }
+            }
+
+            GetMatrice_image_RGB = newmatrice_image_RGB;
+            GetHauteur = GetMatrice_image_RGB.GetLength(0);
+            GetLargeur = GetMatrice_image_RGB.GetLength(1);
+            GetTaille_fichier = GetHauteur * GetLargeur * 3;
+
+            From_Image_To_File(filename);
         }
 
         public void Rotation(int angle)
         {
-
+            //Oui
         }
-
+        
         public void Miroir()
         {
-            new Pixel[,] newmatrice_image_RGB = ;
-            for (int i = 0; i<GetHauteur; i++)
+            Pixel[,] newmatrice_image_RGB = new Pixel[GetHauteur,GetLargeur];
+            for (int i = 0; i< GetHauteur; i++)
             {
-                for (int j = 0; j<GetLargeur; j++)
+                for (int j = 0; j< GetLargeur; j++)
                 {
-                    Pixel[,] newmatrice_image_RGB = GetMatrice_image_RGB[i,j];
+                     newmatrice_image_RGB[i,j] = GetMatrice_image_RGB[i, GetLargeur - j-1];
                 }
             }
+            this.GetMatrice_image_RGB = newmatrice_image_RGB;
+            From_Image_To_File(filename);
         }
+        
     }
 }

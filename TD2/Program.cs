@@ -60,13 +60,13 @@ namespace TD_2
                                     break;
 
                                 case 5:
-                                    int pourcentage = Convert.ToInt32(Console.ReadLine());
+                                    Console.Write("Veuillez saisir le pourcentage pour agrandir ou réduire votre image -> ");
+                                    double pourcentage = Convert.ToInt32(Console.ReadLine());
                                     image1.AgrandissementRetrecissement(pourcentage);
                                     break;
 
                                 case 6:
-                                    int valeur = Convert.ToInt32(Console.ReadLine());
-                                    image1.Miroir(valeur);
+                                    image1.Miroir();
                                     break;
                             }
                             Console.WriteLine("\nAppuyez pour continuer");
@@ -119,13 +119,13 @@ namespace TD_2
                                     break;
 
                                 case 5:
+                                    Console.Write("Veuillez saisir le pourcentage pour agrandir ou réduire votre image -> ");
                                     int pourcentage = Convert.ToInt32(Console.ReadLine());
                                     image2.AgrandissementRetrecissement(pourcentage);
                                     break;
 
                                 case 6:
-                                    int valeur = Convert.ToInt32(Console.ReadLine());
-                                    image2.Miroir(valeur);
+                                    image2.Miroir();
                                     break;
                             }
                             Console.WriteLine("\nAppuyez pour continuer");
@@ -178,13 +178,13 @@ namespace TD_2
                                     break;
 
                                 case 5:
+                                    Console.Write("Veuillez saisir le pourcentage pour agrandir ou réduire votre image -> ");
                                     int pourcentage = Convert.ToInt32(Console.ReadLine());
                                     image3.AgrandissementRetrecissement(pourcentage);
                                     break;
 
                                 case 6:
-                                    int valeur = Convert.ToInt32(Console.ReadLine());
-                                    image3.Miroir(valeur);
+                                    image3.Miroir();
                                     break;
                             }
                             Console.WriteLine("\nAppuyez pour continuer");
@@ -237,12 +237,12 @@ namespace TD_2
                                     break;
 
                                 case 5:
+                                    Console.Write("Veuillez saisir le pourcentage pour agrandir ou réduire votre image -> ");
                                     int pourcentage = Convert.ToInt32(Console.ReadLine());
                                     image4.AgrandissementRetrecissement(pourcentage);
                                     break;
 
                                 case 6:
-                                    int valeur = Convert.ToInt32(Console.ReadLine());
                                     image4.Miroir();
                                     break;
                             }
@@ -263,6 +263,7 @@ namespace TD_2
             } while (cki.Key != ConsoleKey.Escape);
             Console.WriteLine("BBonne continuation !");
             Console.ReadKey();
+            //Oui
         }
     }
 }

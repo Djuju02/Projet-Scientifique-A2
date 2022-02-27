@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace TD_2
 {
     class Pixel
-    {
+    {//Oui
         byte r;
         byte g;
         byte b;
