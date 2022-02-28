@@ -260,6 +260,66 @@ namespace TD_2
                             Console.Clear();
                         }
                         break;
+
+                    case 5:
+                        int mémoire5 = 1;
+                        while (mémoire5 == 1)
+                        {
+                            MyImage image5 = new MyImage("Testcentre.bmp");
+
+                            Console.WriteLine("Que souhaitez-vous faire avec cette image ?");
+                            Console.WriteLine("\nVoici la liste d'actions réalisables :" +
+                                "\n1 - Récupérer ses informations" +
+                                "\n2 - Appliquer un filtre noir et blanc" +
+                                "\n3 - Appliquer un filtre nuance de gris" +
+                                "\n4 - Appliquer une rotation de l'image" +
+                                "\n5 - Appliquer un effet de rétrécissement ou d'agrandissement" +
+                                "\n6 - Appliquer un effet miroir\n");
+                            Console.Write("Veuillez saisir le numéro de l'action désirée -> ");
+                            int lecture5 = Convert.ToInt32(Console.ReadLine());
+                            Console.Clear();
+
+                            switch (lecture5)
+                            {
+
+                                case 1:
+                                    image5.Informations();
+                                    break;
+
+                                case 2:
+                                    image5.Blanc_noir();
+                                    break;
+
+                                case 3:
+                                    image5.Nuance_Gris();
+                                    break;
+
+                                case 4:
+                                    Console.Write("Veuillez saisir l'angle de rotation (sens horaire) que vous souhaitez appliquer à votre image -> ");
+                                    double val = Convert.ToDouble(Console.ReadLine());
+                                    image5.Rotation(val);
+                                    break;
+
+                                case 5:
+                                    Console.Write("Veuillez saisir le pourcentage pour agrandir ou réduire votre image -> ");
+                                    double pourcentage = Convert.ToDouble(Console.ReadLine());
+                                    image5.AgrandissementRetrecissement(pourcentage);
+                                    break;
+
+                                case 6:
+                                    image5.Miroir();
+                                    break;
+                            }
+                            Console.WriteLine("\nAppuyez pour continuer");
+                            Console.ReadKey();
+                            Console.Clear();
+                            Console.WriteLine("Souhaitez-vous effectuer d'autres actions sur cette image ?");
+                            Console.WriteLine("1 - Oui\n2 - Non\n");
+                            Console.Write("Veuillez saisir votre choix -> ");
+                            if (Convert.ToInt32(Console.ReadLine()) == 2) mémoire5 = 0;
+                            Console.Clear();
+                        }
+                        break;
                 }
                 Console.WriteLine("\nTapez <ECHAP> pour sortir ou <ENTRER> pour continuer");
                 cki = Console.ReadKey();

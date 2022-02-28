@@ -163,8 +163,24 @@ namespace TD_2
         //pour sauvegarder le fichier
         public void From_Image_To_File(string myfile)
         {
+            int add = 0;
+            //Modulo 4
+            if (4 - (GetLargeur % 4) == 1)
+            {
+                add += 3;
+            }
+            if (4 - (GetLargeur % 4) == 2)
+            {
+                add += 2;
+            }
+            if (4 - (GetLargeur % 4) == 3)
+            {
+                add += 1;
+            }
+
+
             byte[] fileorigin = File.ReadAllBytes(myfile);
-            byte[] filefinal = new byte[GetTaille_offset + GetMatrice_image_RGB.Length * 3];
+            byte[] filefinal = new byte[GetTaille_offset + GetMatrice_image_RGB.Length * 3 + add * GetHauteur];
 
             //Type de fichier 0/1
             filefinal[0] = 66;
@@ -243,20 +259,6 @@ namespace TD_2
 
             //Ligne 54 
             int compteur = GetTaille_offset;
-            int add = 0;
-            //Modulo 4
-            if (4 - (GetLargeur % 4) == 1)
-            {
-                add += 1;
-            }
-            if (4 - (GetLargeur % 4) == 2)
-            {
-                add += 2;
-            }
-            if (4 - (GetLargeur % 4) == 3)
-            {
-                add += 3;
-            }
 
             for (int i = 0; i < GetHauteur; i++)
             {
@@ -388,7 +390,7 @@ namespace TD_2
             new_largeur = x_max - x_min + 1;
 
             Pixel[,] new_matrix = new Pixel[new_hauteur, new_largeur];
-            Pixel p = new Pixel(0, 0, 0);
+            Pixel p = new Pixel(249, 66, 158); //PRANKED
             int[] new_center = { new_matrix.GetLength(0) / 2, new_matrix.GetLength(1) / 2 };
             for (int i = 0; i < new_matrix.GetLength(0); i++)
             {
