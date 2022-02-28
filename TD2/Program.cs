@@ -41,22 +41,22 @@ namespace TD_2
                     switch (lecture)
                     {
                         case 1:
-                            image = new MyImage("coco.bmp");
+                            image = new MyImage("./Images références/coco.bmp");
                             Console.WriteLine("Vous avez séléctionné l'image Coco");
                             break;
 
                         case 2:
-                            image = new MyImage("lac.bmp");
+                            image = new MyImage("./Images références/lac.bmp");
                             Console.WriteLine("Vous avez séléctionné l'image Lac");
                             break;
 
                         case 3:
-                            image = new MyImage("Test.bmp");
+                            image = new MyImage("./Images références/Test.bmp");
                             Console.WriteLine("Vous avez séléctionné l'image Test");
                             break;
 
                         case 4:
-                            image = new MyImage("lena.bmp");
+                            image = new MyImage("./Images références/lena.bmp");
                             Console.WriteLine("Vous avez séléctionné l'image Léna");
                             break;
                     }
@@ -135,12 +135,14 @@ namespace TD_2
                             image.Repoussage();
                             break;
                     }
-                    Console.WriteLine("Enregistrement effectué !\n\nAppuyez pour continuer");
+                    if (lecture_action != 1) Console.WriteLine("Enregistrement effectué !");
+                    Console.Write("\nAppuyez pour continuer");
                     Console.ReadKey();
                     Console.Clear();
                     Console.WriteLine("Souhaitez-vous effectuer d'autres actions sur cette image ?");
                     Console.WriteLine("1 - Oui\n2 - Non\n");
                     Console.Write("Veuillez saisir votre choix -> ");
+
                     if (Convert.ToInt32(Console.ReadLine()) == 2) mémoire = 0;
                     Console.Clear();
                 }
