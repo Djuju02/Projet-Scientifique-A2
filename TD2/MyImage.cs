@@ -389,12 +389,12 @@ namespace TD_2
             new_hauteur = y_max - y_min + 1;
             new_largeur = x_max - x_min + 1;
 
-            Pixel[,] new_matrix = new Pixel[new_hauteur, new_largeur];
+            Pixel[,] newmatrice_image_RGB = new Pixel[new_hauteur, new_largeur];
             Pixel p = new Pixel(249, 66, 158); //PRANKED
-            int[] new_center = { new_matrix.GetLength(0) / 2, new_matrix.GetLength(1) / 2 };
-            for (int i = 0; i < new_matrix.GetLength(0); i++)
+            int[] new_center = { newmatrice_image_RGB.GetLength(0) / 2, newmatrice_image_RGB.GetLength(1) / 2 };
+            for (int i = 0; i < newmatrice_image_RGB.GetLength(0); i++)
             {
-                for (int j = 0; j < new_matrix.GetLength(1); j++)
+                for (int j = 0; j < newmatrice_image_RGB.GetLength(1); j++)
                 {
                     double rayon = Math.Sqrt(Math.Pow(i - new_center[0], 2) + Math.Pow(j - new_center[1], 2));
                     double theta = Math.Atan2(j - new_center[1], i - new_center[0]) - angle;
@@ -402,11 +402,11 @@ namespace TD_2
                     int new_y = (int)(center[1] + rayon * Math.Sin(theta));
                     if (new_x >= 0 && new_x < GetMatrice_image_RGB.GetLength(0) && new_y >= 0 && new_y < GetMatrice_image_RGB.GetLength(1))
                     {
-                        new_matrix[i, j] = GetMatrice_image_RGB[new_x, new_y];
+                        newmatrice_image_RGB[i, j] = GetMatrice_image_RGB[new_x, new_y];
                     }
                     else
                     {
-                        new_matrix[i, j] = p;
+                        newmatrice_image_RGB[i, j] = p;
                     }
 
                 }
@@ -414,7 +414,7 @@ namespace TD_2
 
             GetHauteur = new_hauteur;
             GetLargeur = new_largeur;
-            GetMatrice_image_RGB = new_matrix;
+            GetMatrice_image_RGB = newmatrice_image_RGB;
             GetTaille_fichier = GetHauteur * GetLargeur * 3;
 
             From_Image_To_File(filename);
@@ -431,6 +431,233 @@ namespace TD_2
                 }
             }
             this.GetMatrice_image_RGB = newmatrice_image_RGB;
+            From_Image_To_File(filename);
+        }
+
+        public void Detection_de_contour()
+        {
+            Pixel[,] newmatrice_image_RGB = new Pixel[GetHauteur, GetLargeur];
+            Pixel p = new Pixel(0, 0, 0);
+            
+            //int[,] noyau_contours = { { 1, 0, -1 },{ 0, 0, 0 },{ -1, 0, 1 } };
+            //int[,] noyau_contours = { { 0, 1, 0 }, { 1, -4, 1 }, { 0, 1, 0 } };
+            int[,] noyau_contours = { { -1, -1, -1 }, { -1, 8, -1 }, { -1, -1, -1 } };
+            
+            int moyenneR;
+            int moyenneG;
+            int moyenneB;
+            int compteurColonne = 0;
+            int compteurLigne = 0;
+
+            for (int x = 0; x < GetHauteur; x++)
+            {
+                for (int y = 0; y < GetLargeur; y++)
+                {
+                    if (x == 0 || x == GetHauteur - 1 || y == 0 || y == GetLargeur - 1) newmatrice_image_RGB[x, y] = p;
+                }
+            }
+
+            for (int i = 1; i < GetHauteur-1; i++)
+            {
+                for (int j = 1; j < GetLargeur-1; j++)
+                {
+                    moyenneR = 0;
+                    moyenneG = 0;
+                    moyenneB = 0;
+
+                    for (int a = i-1; a <= i+1; a++)
+                    {
+                        for (int b = j - 1; b <= j + 1; b++)
+                        {
+                            moyenneR += GetMatrice_image_RGB[a, b].GetRouge * noyau_contours[compteurLigne, compteurColonne];
+                            moyenneG += GetMatrice_image_RGB[a, b].GetVert * noyau_contours[compteurLigne, compteurColonne];
+                            moyenneB += GetMatrice_image_RGB[a, b].GetBleu * noyau_contours[compteurLigne, compteurColonne];
+
+                            compteurColonne++;
+                        }
+                        compteurColonne = 0;
+                        compteurLigne++;
+                    }
+                    compteurLigne = 0;
+
+                    if (moyenneR < 0) moyenneR = 0;
+                    if (moyenneG < 0) moyenneG = 0;
+                    if (moyenneB < 0) moyenneB = 0;
+
+                    newmatrice_image_RGB[i, j] = new Pixel((byte)moyenneR, (byte)moyenneG, (byte)moyenneB);
+                }
+            }
+            GetMatrice_image_RGB = newmatrice_image_RGB;
+            From_Image_To_File(filename);
+        }
+
+        public void Renforcement_des_bords()
+        {
+            Pixel[,] newmatrice_image_RGB = new Pixel[GetHauteur, GetLargeur];
+            Pixel p = new Pixel(0, 0, 0);
+
+            int[,] noyau_contours = { { 0, -1, 0 }, { -1, 5, -1 }, { 0, -1, 0 } };
+
+            int moyenneR;
+            int moyenneG;
+            int moyenneB;
+            int compteurColonne = 0;
+            int compteurLigne = 0;
+
+            for (int x = 0; x < GetHauteur; x++)
+            {
+                for (int y = 0; y < GetLargeur; y++)
+                {
+                    if (x == 0 || x == GetHauteur - 1 || y == 0 || y == GetLargeur - 1) newmatrice_image_RGB[x, y] = p;
+                }
+            }
+
+            for (int i = 1; i < GetHauteur - 1; i++)
+            {
+                for (int j = 1; j < GetLargeur - 1; j++)
+                {
+                    moyenneR = 0;
+                    moyenneG = 0;
+                    moyenneB = 0;
+
+                    for (int a = i - 1; a <= i + 1; a++)
+                    {
+                        for (int b = j - 1; b <= j + 1; b++)
+                        {
+                            moyenneR += GetMatrice_image_RGB[a, b].GetRouge * noyau_contours[compteurLigne, compteurColonne];
+                            moyenneG += GetMatrice_image_RGB[a, b].GetVert * noyau_contours[compteurLigne, compteurColonne];
+                            moyenneB += GetMatrice_image_RGB[a, b].GetBleu * noyau_contours[compteurLigne, compteurColonne];
+
+                            compteurColonne++;
+                        }
+                        compteurColonne = 0;
+                        compteurLigne++;
+                    }
+
+                    compteurLigne = 0;
+
+                    if (moyenneR < 0) moyenneR = 0;
+                    if (moyenneG < 0) moyenneG = 0;
+                    if (moyenneB < 0) moyenneB = 0;
+
+                    newmatrice_image_RGB[i, j] = new Pixel((byte)moyenneR, (byte)moyenneG, (byte)moyenneB);
+                }
+            }
+            GetMatrice_image_RGB = newmatrice_image_RGB;
+            From_Image_To_File(filename);
+        }
+
+        public void Flou()
+        {
+            Pixel[,] newmatrice_image_RGB = new Pixel[GetHauteur, GetLargeur];
+            Pixel p = new Pixel(0, 0, 0);
+
+            int[,] noyau_contours = { { 1, 1, 1 }, { 1, 1, 1 }, { 1, 1, 1 } };
+            //int[,] noyau_contours = { { 1, 2, 1 }, { 2, 4, 2 }, { 1, 2, 1 } };
+
+            int div = 9;
+            //int div = 16;
+
+            int moyenneR;
+            int moyenneG;
+            int moyenneB;
+            int compteurColonne = 0;
+            int compteurLigne = 0;
+
+            for (int x = 0; x < GetHauteur; x++)
+            {
+                for (int y = 0; y < GetLargeur; y++)
+                {
+                    if (x == 0 || x == GetHauteur - 1 || y == 0 || y == GetLargeur - 1) newmatrice_image_RGB[x, y] = p;
+                }
+            }
+
+            for (int i = 1; i < GetHauteur - 1; i++)
+            {
+                for (int j = 1; j < GetLargeur - 1; j++)
+                {
+                    moyenneR = 0;
+                    moyenneG = 0;
+                    moyenneB = 0;
+
+                    for (int a = i - 1; a <= i + 1; a++)
+                    {
+                        for (int b = j - 1; b <= j + 1; b++)
+                        {
+                            moyenneR += GetMatrice_image_RGB[a, b].GetRouge * noyau_contours[compteurLigne, compteurColonne];
+                            moyenneG += GetMatrice_image_RGB[a, b].GetVert * noyau_contours[compteurLigne, compteurColonne];
+                            moyenneB += GetMatrice_image_RGB[a, b].GetBleu * noyau_contours[compteurLigne, compteurColonne];
+
+                            compteurColonne++;
+                        }
+                        compteurColonne = 0;
+                        compteurLigne++;
+                    }
+                    compteurLigne = 0;
+
+                    moyenneR /= div;
+                    moyenneG /= div;
+                    moyenneB /= div;
+
+                    newmatrice_image_RGB[i, j] = new Pixel((byte)moyenneR, (byte)moyenneG, (byte)moyenneB);
+                }
+            }
+            GetMatrice_image_RGB = newmatrice_image_RGB;
+            From_Image_To_File(filename);
+        }
+
+        public void Repoussage()
+        {
+            int[,] noyau_contours = { { -2, -1, 0 }, { -1, 1, 1 }, { 0, 1, 2 } };
+
+            Pixel[,] newmatrice_image_RGB = new Pixel[GetHauteur, GetLargeur];
+            Pixel p = new Pixel(0, 0, 0);
+
+            int moyenneR;
+            int moyenneG;
+            int moyenneB;
+            int compteurColonne = 0;
+            int compteurLigne = 0;
+
+            for (int x = 0; x < GetHauteur; x++)
+            {
+                for (int y = 0; y < GetLargeur; y++)
+                {
+                    if (x == 0 || x == GetHauteur - 1 || y == 0 || y == GetLargeur - 1) newmatrice_image_RGB[x, y] = p;
+                }
+            }
+
+            for (int i = 1; i < GetHauteur - 1; i++)
+            {
+                for (int j = 1; j < GetLargeur - 1; j++)
+                {
+                    moyenneR = 0;
+                    moyenneG = 0;
+                    moyenneB = 0;
+
+                    for (int a = i - 1; a <= i + 1; a++)
+                    {
+                        for (int b = j - 1; b <= j + 1; b++)
+                        {
+                            moyenneR += GetMatrice_image_RGB[a, b].GetRouge * noyau_contours[compteurLigne, compteurColonne];
+                            moyenneG += GetMatrice_image_RGB[a, b].GetVert * noyau_contours[compteurLigne, compteurColonne];
+                            moyenneB += GetMatrice_image_RGB[a, b].GetBleu * noyau_contours[compteurLigne, compteurColonne];
+
+                            compteurColonne++;
+                        }
+                        compteurColonne = 0;
+                        compteurLigne++;
+                    }
+                    compteurLigne = 0;
+
+                    if (moyenneR < 0) moyenneR = 0;
+                    if (moyenneG < 0) moyenneG = 0;
+                    if (moyenneB < 0) moyenneB = 0;
+
+                    newmatrice_image_RGB[i, j] = new Pixel((byte)moyenneR, (byte)moyenneG, (byte)moyenneB);
+                }
+            }
+            GetMatrice_image_RGB = newmatrice_image_RGB;
             From_Image_To_File(filename);
         }
 

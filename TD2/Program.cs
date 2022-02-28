@@ -94,7 +94,12 @@ namespace TD_2
                                 "\n3 - Appliquer un filtre nuance de gris" +
                                 "\n4 - Appliquer une rotation de l'image" +
                                 "\n5 - Appliquer un effet de rétrécissement ou d'agrandissement" +
-                                "\n6 - Appliquer un effet miroir\n");
+                                "\n6 - Appliquer un effet miroir" + 
+                                "\n7 - Détection de contours" +
+                                "\n8 - Renforcement des bords" +
+                                "\n9 - Flou" +
+                                "\n10 - Repoussage" +
+                                "\n");
                             Console.Write("Veuillez saisir le numéro de l'action désirée -> ");
                             int lecture2 = Convert.ToInt32(Console.ReadLine());
                             Console.Clear();
@@ -129,6 +134,24 @@ namespace TD_2
                                 case 6:
                                     image2.Miroir();
                                     break;
+
+                                case 7:
+                                    image2.Detection_de_contour();
+                                    break;
+
+                                case 8:
+                                    image2.Renforcement_des_bords();
+                                    break;
+
+                                case 9:
+                                    image2.Flou();
+                                    break;
+
+                                case 10:
+                                    image2.Repoussage();
+                                    break;
+
+
                             }
                             Console.WriteLine("\nAppuyez pour continuer");
                             Console.ReadKey();
