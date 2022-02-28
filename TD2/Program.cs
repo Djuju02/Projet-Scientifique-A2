@@ -19,17 +19,17 @@ namespace TD_2
                 "\n1 - Coco" +
                 "\n2 - Lac" +
                 "\n3 - Test" +
-                "\n4 - Love"  +
-                "\n5 - Test impair" +"\n");
+                "\n4 - Léna\n");
+
                 Console.Write("Veuillez saisir le numéro de l'image que vous souhaitez traiter -> ");
                 int lecture = Convert.ToInt32(Console.ReadLine());
 
-                if(lecture <= 0 || lecture > 5)
+                if(lecture <= 0 || lecture > 4)
                 {
-                    while(lecture <= 0 || lecture > 5)
+                    while(lecture <= 0 || lecture > 4)
                     {
                         Console.WriteLine("\n***** Valeur erronée ! *****");
-                        Console.Write("\nVeuillez saisir un numéro valide entre 1 et 5 -> ");
+                        Console.Write("\nVeuillez saisir un numéro valide entre 1 et 4 -> ");
                         lecture = Convert.ToInt32(Console.ReadLine());
                     }
                 }
@@ -42,27 +42,22 @@ namespace TD_2
                     {
                         case 1:
                             image = new MyImage("coco.bmp");
-                            Console.WriteLine("Vous avez séléctionné l'image coco");
+                            Console.WriteLine("Vous avez séléctionné l'image Coco");
                             break;
 
                         case 2:
                             image = new MyImage("lac.bmp");
-                            Console.WriteLine("Vous avez séléctionné l'image lac");
+                            Console.WriteLine("Vous avez séléctionné l'image Lac");
                             break;
 
                         case 3:
                             image = new MyImage("Test.bmp");
-                            Console.WriteLine("Vous avez séléctionné l'image test");
+                            Console.WriteLine("Vous avez séléctionné l'image Test");
                             break;
 
                         case 4:
-                            image = new MyImage("love.bmp");
-                            Console.WriteLine("Vous avez séléctionné l'image love");
-                            break;
-
-                        case 5:
-                            image = new MyImage("Testcentre.bmp");
-                            Console.WriteLine("Vous avez séléctionné l'image Test centre");
+                            image = new MyImage("lena.bmp");
+                            Console.WriteLine("Vous avez séléctionné l'image Léna");
                             break;
                     }
                     Console.WriteLine("Que souhaitez-vous faire avec cette image ?");
@@ -85,7 +80,7 @@ namespace TD_2
                     {
                         while (lecture_action <= 0 || lecture_action > 10)
                         {
-                            Console.WriteLine("\n***** Valeur erronée ! *****");
+                            Console.WriteLine("\n********** Valeur erronée ! **********");
                             Console.Write("\nVeuillez saisir un numéro valide entre 1 et 10 -> ");
                             lecture_action = Convert.ToInt32(Console.ReadLine());
                         }
