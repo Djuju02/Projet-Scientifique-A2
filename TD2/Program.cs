@@ -4,432 +4,157 @@ namespace TD_2
 {
     class Program
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="args"></param>
         static void Main(string[] args)
         {
             ConsoleKeyInfo cki;
             do
             {
+                int mémoire = 1;
+
                 Console.WriteLine("Voici la liste d'image disponible :" +
-                    "\n1 - Test" +
-                    "\n2 - Coco" +
-                    "\n3 - Love" +
-                    "\n4 - Lac\n");
+                "\n1 - Coco" +
+                "\n2 - Lac" +
+                "\n3 - Test" +
+                "\n4 - Love"  +
+                "\n5 - Test impair" +"\n");
                 Console.Write("Veuillez saisir le numéro de l'image que vous souhaitez traiter -> ");
                 int lecture = Convert.ToInt32(Console.ReadLine());
 
-                Console.Clear();
-
-                switch (lecture)
+                if(lecture <= 0 || lecture > 5)
                 {
-                    case 1:
-                        int mémoire1 = 1;                    
-                        while (mémoire1 == 1)
-                        {
-                            MyImage image1 = new MyImage("test.bmp");
-
-                            Console.WriteLine("Que souhaitez-vous faire avec cette image ?");
-                            Console.WriteLine("\nVoici la liste d'actions réalisables :" +
-                                "\n1 - Récupérer ses informations" +
-                                "\n2 - Appliquer un filtre noir et blanc" +
-                                "\n3 - Appliquer un filtre nuance de gris" +
-                                "\n4 - Appliquer une rotation de l'image" +
-                                "\n5 - Appliquer un effet de rétrécissement ou d'agrandissement" +
-                                "\n6 - Appliquer un effet miroir" + 
-                                "\n7 - Détection de contours" +
-                                "\n8 - Renforcement des bords" +
-                                "\n9 - Flou" +
-                                "\n10 - Repoussage" +
-                                "\n");
-                            Console.Write("Veuillez saisir le numéro de l'action désirée -> ");
-                            int lecture1 = Convert.ToInt32(Console.ReadLine());
-                            Console.Clear();
-
-                            switch (lecture1)
-                            {
-
-                                case 1:
-                                    image1.Informations();
-                                    break;
-
-                                case 2:
-                                    image1.Blanc_noir();
-                                    break;
-
-                                case 3:
-                                    image1.Nuance_Gris();
-                                    break;
-
-                                case 4:
-                                    Console.Write("Veuillez saisir l'angle de rotation (sens horaire) que vous souhaitez appliquer à votre image -> ");
-                                    double val = Convert.ToDouble(Console.ReadLine());
-                                    image1.Rotation(val);
-                                    break;
-
-                                case 5:
-                                    Console.Write("Veuillez saisir le pourcentage pour agrandir ou réduire votre image -> ");
-                                    double pourcentage = Convert.ToDouble(Console.ReadLine());
-                                    image1.AgrandissementRetrecissement(pourcentage);
-                                    break;
-
-                                case 6:
-                                    image1.Miroir();
-                                    break;
-
-                                case 7:
-                                    image1.Detection_de_contour();
-                                    break;
-
-                                case 8:
-                                    image1.Renforcement_des_bords();
-                                    break;
-
-                                case 9:
-                                    image1.Flou();
-                                    break;
-
-                                case 10:
-                                    image1.Repoussage();
-                                    break;
-                            }
-                            Console.WriteLine("\nAppuyez pour continuer");
-                            Console.ReadKey();
-                            Console.Clear();
-                            Console.WriteLine("Souhaitez-vous effectuer d'autres actions sur cette image ?");
-                            Console.WriteLine("1 - Oui\n2 - Non\n");
-                            Console.Write("Veuillez saisir votre choix -> ");
-                            if (Convert.ToInt32(Console.ReadLine()) == 2) mémoire1 = 0;
-                            Console.Clear();
-                        }
-                        break;
-
-                    case 2:
-                        int mémoire2 = 1;
-                        while (mémoire2 == 1)
-                        {
-                            MyImage image2 = new MyImage("coco.bmp");
-
-                            Console.WriteLine("Que souhaitez-vous faire avec cette image ?");
-                            Console.WriteLine("\nVoici la liste d'actions réalisables :" +
-                                "\n1 - Récupérer ses informations" +
-                                "\n2 - Appliquer un filtre noir et blanc" +
-                                "\n3 - Appliquer un filtre nuance de gris" +
-                                "\n4 - Appliquer une rotation de l'image" +
-                                "\n5 - Appliquer un effet de rétrécissement ou d'agrandissement" +
-                                "\n6 - Appliquer un effet miroir" + 
-                                "\n7 - Détection de contours" +
-                                "\n8 - Renforcement des bords" +
-                                "\n9 - Flou" +
-                                "\n10 - Repoussage" +
-                                "\n");
-                            Console.Write("Veuillez saisir le numéro de l'action désirée -> ");
-                            int lecture2 = Convert.ToInt32(Console.ReadLine());
-                            Console.Clear();
-
-                            switch (lecture2)
-                            {
-
-                                case 1:
-                                    image2.Informations();
-                                    break;
-
-                                case 2:
-                                    image2.Blanc_noir();
-                                    break;
-
-                                case 3:
-                                    image2.Nuance_Gris();
-                                    break;
-
-                                case 4:
-                                    Console.Write("Veuillez saisir l'angle de rotation (sens horaire) que vous souhaitez appliquer à votre image -> ");
-                                    double val = Convert.ToDouble(Console.ReadLine());
-                                    image2.Rotation(val);
-                                    break;
-
-                                case 5:
-                                    Console.Write("Veuillez saisir le pourcentage pour agrandir ou réduire votre image -> ");
-                                    double pourcentage = Convert.ToDouble(Console.ReadLine());
-                                    image2.AgrandissementRetrecissement(pourcentage);
-                                    break;
-
-                                case 6:
-                                    image2.Miroir();
-                                    break;
-
-                                case 7:
-                                    image2.Detection_de_contour();
-                                    break;
-
-                                case 8:
-                                    image2.Renforcement_des_bords();
-                                    break;
-
-                                case 9:
-                                    image2.Flou();
-                                    break;
-
-                                case 10:
-                                    image2.Repoussage();
-                                    break;
-                            }
-                            Console.WriteLine("\nAppuyez pour continuer");
-                            Console.ReadKey();
-                            Console.Clear();
-                            Console.WriteLine("Souhaitez-vous effectuer d'autres actions sur cette image ?");
-                            Console.WriteLine("1 - Oui\n2 - Non\n");
-                            Console.Write("Veuillez saisir votre choix -> ");
-                            if (Convert.ToInt32(Console.ReadLine()) == 2) mémoire2 = 0;
-                            Console.Clear();
-                        }
-                        break;
-
-                    case 3:
-                        int mémoire3 = 1;
-                        while (mémoire3 == 1)
-                        {
-                            MyImage image3 = new MyImage("love.bmp");
-
-                            Console.WriteLine("Que souhaitez-vous faire avec cette image ?");
-                            Console.WriteLine("\nVoici la liste d'actions réalisables :" +
-                                "\n1 - Récupérer ses informations" +
-                                "\n2 - Appliquer un filtre noir et blanc" +
-                                "\n3 - Appliquer un filtre nuance de gris" +
-                                "\n4 - Appliquer une rotation de l'image" +
-                                "\n5 - Appliquer un effet de rétrécissement ou d'agrandissement" +
-                                "\n6 - Appliquer un effet miroir" +
-                                "\n7 - Détection de contours" +
-                                "\n8 - Renforcement des bords" +
-                                "\n9 - Flou" +
-                                "\n10 - Repoussage" +
-                                "\n");
-                            Console.Write("Veuillez saisir le numéro de l'action désirée -> ");
-                            int lecture3 = Convert.ToInt32(Console.ReadLine());
-                            Console.Clear();
-
-                            switch (lecture3)
-                            {
-
-                                case 1:
-                                    image3.Informations();
-                                    break;
-
-                                case 2:
-                                    image3.Blanc_noir();
-                                    break;
-
-                                case 3:
-                                    image3.Nuance_Gris();
-                                    break;
-
-                                case 4:
-                                    Console.Write("Veuillez saisir l'angle de rotation (sens horaire) que vous souhaitez appliquer à votre image -> ");
-                                    double val = Convert.ToDouble(Console.ReadLine());
-                                    image3.Rotation(val);
-                                    break;
-
-                                case 5:
-                                    Console.Write("Veuillez saisir le pourcentage pour agrandir ou réduire votre image -> ");
-                                    double pourcentage = Convert.ToDouble(Console.ReadLine());
-                                    image3.AgrandissementRetrecissement(pourcentage);
-                                    break;
-
-                                case 6:
-                                    image3.Miroir();
-                                    break;
-
-                                case 7:
-                                    image3.Detection_de_contour();
-                                    break;
-
-                                case 8:
-                                    image3.Renforcement_des_bords();
-                                    break;
-
-                                case 9:
-                                    image3.Flou();
-                                    break;
-
-                                case 10:
-                                    image3.Repoussage();
-                                    break;
-                            }
-                            Console.WriteLine("\nAppuyez pour continuer");
-                            Console.ReadKey();
-                            Console.Clear();
-                            Console.WriteLine("Souhaitez-vous effectuer d'autres actions sur cette image ?");
-                            Console.WriteLine("1 - Oui\n2 - Non\n");
-                            Console.Write("Veuillez saisir votre choix -> ");
-                            if (Convert.ToInt32(Console.ReadLine()) == 2) mémoire3 = 0;
-                            Console.Clear();
-                        }
-                        break;
-
-                    case 4:
-                        int mémoire4 = 1;
-                        while (mémoire4 == 1)
-                        {
-                            MyImage image4 = new MyImage("lac.bmp");
-
-                            Console.WriteLine("Que souhaitez-vous faire avec cette image ?");
-                            Console.WriteLine("\nVoici la liste d'actions réalisables :" +
-                                "\n1 - Récupérer ses informations" +
-                                "\n2 - Appliquer un filtre noir et blanc" +
-                                "\n3 - Appliquer un filtre nuance de gris" +
-                                "\n4 - Appliquer une rotation de l'image" +
-                                "\n5 - Appliquer un effet de rétrécissement ou d'agrandissement" +
-                                "\n6 - Appliquer un effet miroir" +
-                                "\n7 - Détection de contours" +
-                                "\n8 - Renforcement des bords" +
-                                "\n9 - Flou" +
-                                "\n10 - Repoussage" +
-                                "\n");
-                            Console.Write("Veuillez saisir le numéro de l'action désirée -> ");
-                            int lecture4 = Convert.ToInt32(Console.ReadLine());
-                            Console.Clear();
-
-                            switch (lecture4)
-                            {
-
-                                case 1:
-                                    image4.Informations();
-                                    break;
-
-                                case 2:
-                                    image4.Blanc_noir();
-                                    break;
-
-                                case 3:
-                                    image4.Nuance_Gris();
-                                    break;
-
-                                case 4:
-                                    Console.Write("Veuillez saisir l'angle de rotation (sens horaire) que vous souhaitez appliquer à votre image -> ");
-                                    double val = Convert.ToDouble(Console.ReadLine());
-                                    image4.Rotation(val);
-                                    break;
-
-                                case 5:
-                                    Console.Write("Veuillez saisir le pourcentage pour agrandir ou réduire votre image -> ");
-                                    double pourcentage = Convert.ToDouble(Console.ReadLine());
-                                    image4.AgrandissementRetrecissement(pourcentage);
-                                    break;
-
-                                case 6:
-                                    image4.Miroir();
-                                    break;
-
-                                case 7:
-                                    image4.Detection_de_contour();
-                                    break;
-
-                                case 8:
-                                    image4.Renforcement_des_bords();
-                                    break;
-
-                                case 9:
-                                    image4.Flou();
-                                    break;
-
-                                case 10:
-                                    image4.Repoussage();
-                                    break;
-                            }
-                            Console.WriteLine("\nAppuyez pour continuer");
-                            Console.ReadKey();
-                            Console.Clear();
-                            Console.WriteLine("Souhaitez-vous effectuer d'autres actions sur cette image ?");
-                            Console.WriteLine("1 - Oui\n2 - Non\n");
-                            Console.Write("Veuillez saisir votre choix -> ");
-                            if (Convert.ToInt32(Console.ReadLine()) == 2) mémoire4 = 0;
-                            Console.Clear();
-                        }
-                        break;
-
-                    case 5:
-                        int mémoire5 = 1;
-                        while (mémoire5 == 1)
-                        {
-                            MyImage image5 = new MyImage("Testcentre.bmp");
-
-                            Console.WriteLine("Que souhaitez-vous faire avec cette image ?");
-                            Console.WriteLine("\nVoici la liste d'actions réalisables :" +
-                                "\n1 - Récupérer ses informations" +
-                                "\n2 - Appliquer un filtre noir et blanc" +
-                                "\n3 - Appliquer un filtre nuance de gris" +
-                                "\n4 - Appliquer une rotation de l'image" +
-                                "\n5 - Appliquer un effet de rétrécissement ou d'agrandissement" +
-                                "\n6 - Appliquer un effet miroir" +
-                                "\n7 - Détection de contours" +
-                                "\n8 - Renforcement des bords" +
-                                "\n9 - Flou" +
-                                "\n10 - Repoussage" +
-                                "\n");
-                            Console.Write("Veuillez saisir le numéro de l'action désirée -> ");
-                            int lecture5 = Convert.ToInt32(Console.ReadLine());
-                            Console.Clear();
-
-                            switch (lecture5)
-                            {
-
-                                case 1:
-                                    image5.Informations();
-                                    break;
-
-                                case 2:
-                                    image5.Blanc_noir();
-                                    break;
-
-                                case 3:
-                                    image5.Nuance_Gris();
-                                    break;
-
-                                case 4:
-                                    Console.Write("Veuillez saisir l'angle de rotation (sens horaire) que vous souhaitez appliquer à votre image -> ");
-                                    double val = Convert.ToDouble(Console.ReadLine());
-                                    image5.Rotation(val);
-                                    break;
-
-                                case 5:
-                                    Console.Write("Veuillez saisir le pourcentage pour agrandir ou réduire votre image -> ");
-                                    double pourcentage = Convert.ToDouble(Console.ReadLine());
-                                    image5.AgrandissementRetrecissement(pourcentage);
-                                    break;
-
-                                case 6:
-                                    image5.Miroir();
-                                    break;
-
-                                case 7:
-                                    image5.Detection_de_contour();
-                                    break;
-
-                                case 8:
-                                    image5.Renforcement_des_bords();
-                                    break;
-
-                                case 9:
-                                    image5.Flou();
-                                    break;
-
-                                case 10:
-                                    image5.Repoussage();
-                                    break;
-                            }
-                            Console.WriteLine("\nAppuyez pour continuer");
-                            Console.ReadKey();
-                            Console.Clear();
-                            Console.WriteLine("Souhaitez-vous effectuer d'autres actions sur cette image ?");
-                            Console.WriteLine("1 - Oui\n2 - Non\n");
-                            Console.Write("Veuillez saisir votre choix -> ");
-                            if (Convert.ToInt32(Console.ReadLine()) == 2) mémoire5 = 0;
-                            Console.Clear();
-                        }
-                        break;
+                    while(lecture <= 0 || lecture > 5)
+                    {
+                        Console.WriteLine("\n***** Valeur erronée ! *****");
+                        Console.Write("\nVeuillez saisir un numéro valide entre 1 et 5 -> ");
+                        lecture = Convert.ToInt32(Console.ReadLine());
+                    }
                 }
+
+                Console.Clear();
+                while (mémoire == 1)
+                {
+                    MyImage image = null;
+                    switch (lecture)
+                    {
+                        case 1:
+                            image = new MyImage("coco.bmp");
+                            Console.WriteLine("Vous avez séléctionné l'image coco");
+                            break;
+
+                        case 2:
+                            image = new MyImage("lac.bmp");
+                            Console.WriteLine("Vous avez séléctionné l'image lac");
+                            break;
+
+                        case 3:
+                            image = new MyImage("Test.bmp");
+                            Console.WriteLine("Vous avez séléctionné l'image test");
+                            break;
+
+                        case 4:
+                            image = new MyImage("love.bmp");
+                            Console.WriteLine("Vous avez séléctionné l'image love");
+                            break;
+
+                        case 5:
+                            image = new MyImage("Testcentre.bmp");
+                            Console.WriteLine("Vous avez séléctionné l'image Test centre");
+                            break;
+                    }
+                    Console.WriteLine("Que souhaitez-vous faire avec cette image ?");
+                    Console.WriteLine("\nVoici la liste d'actions réalisables :" +
+                        "\n1 - Récupérer ses informations" +
+                        "\n2 - Appliquer un filtre noir et blanc" +
+                        "\n3 - Appliquer un filtre nuance de gris" +
+                        "\n4 - Appliquer une rotation de l'image" +
+                        "\n5 - Appliquer un effet de rétrécissement ou d'agrandissement" +
+                        "\n6 - Appliquer un effet miroir" +
+                        "\n7 - Détection de contours" +
+                        "\n8 - Renforcement des bords" +
+                        "\n9 - Flou" +
+                        "\n10 - Repoussage" +
+                        "\n");
+                    Console.Write("Veuillez saisir le numéro de l'action désirée -> ");
+                    int lecture_action = Convert.ToInt32(Console.ReadLine());
+
+                    if (lecture_action <= 0 || lecture_action > 10)
+                    {
+                        while (lecture_action <= 0 || lecture_action > 10)
+                        {
+                            Console.WriteLine("\n***** Valeur erronée ! *****");
+                            Console.Write("\nVeuillez saisir un numéro valide entre 1 et 10 -> ");
+                            lecture_action = Convert.ToInt32(Console.ReadLine());
+                        }
+                    }
+
+                    Console.Clear();
+
+                    switch (lecture_action)
+                    {
+
+                        case 1:
+                            image.Informations();
+                            break;
+
+                        case 2:
+                            image.Blanc_noir();
+                            break;
+
+                        case 3:
+                            image.Nuance_Gris();
+                            break;
+
+                        case 4:
+                            Console.Write("Veuillez saisir l'angle de rotation (sens horaire) que vous souhaitez appliquer à votre image -> ");
+                            double val = Convert.ToDouble(Console.ReadLine());
+                            image.Rotation(val);
+                            break;
+
+                        case 5:
+                            Console.Write("Veuillez saisir le pourcentage pour agrandir ou réduire votre image -> ");
+                            double pourcentage = Convert.ToDouble(Console.ReadLine());
+                            image.AgrandissementRetrecissement(pourcentage);
+                            break;
+
+                        case 6:
+                            image.Miroir();
+                            break;
+
+                        case 7:
+                            image.Detection_de_contour();
+                            break;
+
+                        case 8:
+                            image.Renforcement_des_bords();
+                            break;
+
+                        case 9:
+                            image.Flou();
+                            break;
+
+                        case 10:
+                            image.Repoussage();
+                            break;
+                    }
+                    Console.WriteLine("Enregistrement effectué !\n\nAppuyez pour continuer");
+                    Console.ReadKey();
+                    Console.Clear();
+                    Console.WriteLine("Souhaitez-vous effectuer d'autres actions sur cette image ?");
+                    Console.WriteLine("1 - Oui\n2 - Non\n");
+                    Console.Write("Veuillez saisir votre choix -> ");
+                    if (Convert.ToInt32(Console.ReadLine()) == 2) mémoire = 0;
+                    Console.Clear();
+                }
+
                 Console.WriteLine("\nTapez <ECHAP> pour sortir ou <ENTRER> pour continuer");
                 cki = Console.ReadKey();
                 Console.Clear();
             } while (cki.Key != ConsoleKey.Escape);
+
             Console.WriteLine("BBonne continuation !");
             Console.ReadKey();
         }

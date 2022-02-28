@@ -3,8 +3,7 @@ using System.IO;
 
 
 namespace TD_2
-{//TD2_SALEH_Julien
-
+{
     class MyImage
     {
         string filename;
@@ -17,6 +16,10 @@ namespace TD_2
         Pixel[,] matrice_image_RGB;
 
         //Pour charger un fichier et le transformer en instance de la classe MyImage
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="filename_1"></param>
         public MyImage(string filename_1)
         {
             byte[] myfile = File.ReadAllBytes(filename_1);
@@ -43,35 +46,6 @@ namespace TD_2
                     compteur += 3;
                 }
             }
-
-
-            //Emplacement 54
-
-            /*
-            Console.WriteLine("\n********************HEADER********************");
-            for (int i = 0; i < 14; i++)
-                Console.Write(myfile[i] + " ");
-            //Métadonnées de l'image
-            Console.WriteLine();
-            Console.WriteLine("\n********************HEADER INFO********************");
-            for (int i = 14; i < 54; i++)
-                Console.Write(myfile[i] + " ");
-            */
-
-            //L'image elle-même
-
-            /*
-            Console.WriteLine("\n IMAGE");
-            for (int i = 54; i < myfile.Length; i += GetLargeur)
-            {
-                for (int j = i; j < i + GetLargeur; j++)
-                {
-                    Console.Write("{0:D3} ", myfile[j]);
-                }
-                Console.WriteLine();
-            }
-            Console.WriteLine();
-            */
         }
 
         /*
@@ -82,43 +56,71 @@ namespace TD_2
         }
         */
 
-
+        /// <summary>
+        /// 
+        /// </summary>
         public string GetTypeDeFichier
         {
             get { return this.typedefichier; }
             set { this.typedefichier = value; }
         }
+        /// <summary>
+        /// 
+        /// </summary>
         public int GetTaille_fichier
         {
             get { return this.taille_fichier; }
             set { this.taille_fichier = value; }
         }
+        /// <summary>
+        /// 
+        /// </summary>
         public int GetTaille_offset
         {
             get { return this.taille_offset; }
             set { this.taille_offset = value; }
         }
+        /// <summary>
+        /// 
+        /// </summary>
         public int GetLargeur
         {
             get { return this.largeur; }
             set { this.largeur = value; }
         }
+        /// <summary>
+        /// 
+        /// </summary>
         public int GetHauteur
         {
             get { return this.hauteur; }
             set { this.hauteur = value; }
         }
+        /// <summary>
+        /// 
+        /// </summary>
         public int GetNb_bits_couleur
         {
             get { return this.nb_bits_couleur; }
             set { this.nb_bits_couleur = value; }
         }
+        /// <summary>
+        /// 
+        /// </summary>
         public Pixel[,] GetMatrice_image_RGB
         {
             get { return this.matrice_image_RGB; }
             set { this.matrice_image_RGB = value; }
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="tab"></param>
+        /// <param name="val1"></param>
+        /// <param name="val2"></param>
+        /// <param name="val3"></param>
+        /// <param name="val4"></param>
+        /// <returns></returns>
         public int Convert_Endian_To_Int(byte[] tab, int val1, int val2, int val3, int val4)
         {
             int convertion = 0;
@@ -144,6 +146,11 @@ namespace TD_2
         }
 
         //2000 = 0*256^3 + 0*256^2 + 7*256^1+ 208*256^0
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="val"></param>
+        /// <returns></returns>
         public byte[] Convertir_Int_To_Endian(int val)
         {
             byte[] conversion = new byte[4];
@@ -161,23 +168,20 @@ namespace TD_2
         }
 
         //pour sauvegarder le fichier
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="myfile"></param>
         public void From_Image_To_File(string myfile)
         {
-            int add = 0;
             //Modulo 4
-            if (4 - (GetLargeur % 4) == 1)
-            {
-                add += 3;
-            }
-            if (4 - (GetLargeur % 4) == 2)
-            {
-                add += 2;
-            }
-            if (4 - (GetLargeur % 4) == 3)
-            {
-                add += 1;
-            }
+            int add = 0;
+            
+            if (4 - (GetLargeur % 4) == 1) add += 3;
 
+            if (4 - (GetLargeur % 4) == 2) add += 2;
+
+            if (4 - (GetLargeur % 4) == 3) add += 1;
 
             byte[] fileorigin = File.ReadAllBytes(myfile);
             byte[] filefinal = new byte[GetTaille_offset + GetMatrice_image_RGB.Length * 3 + add * GetHauteur];
@@ -278,7 +282,9 @@ namespace TD_2
 
             File.WriteAllBytes("./Images enregistrée/SortieTest.bmp", filefinal);
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         public void Informations()
         {
             Console.WriteLine("La type de fichier est " + GetTypeDeFichier);
@@ -288,7 +294,9 @@ namespace TD_2
             Console.WriteLine("La résolution horizontale de l'image est de " + GetLargeur + " pixels");
             Console.WriteLine("Le nombre de bits par couleur est de " + GetNb_bits_couleur + " bits");
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         public void Nuance_Gris()
         {
             for (int i = 0; i < GetHauteur; i++)
@@ -307,7 +315,9 @@ namespace TD_2
             }
             From_Image_To_File(filename);
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         public void Blanc_noir()
         {
             for (int i = 0; i < GetHauteur; i++)
@@ -337,7 +347,10 @@ namespace TD_2
             From_Image_To_File(filename);
         }
 
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="pourcentage"></param>
         public void AgrandissementRetrecissement(double pourcentage)
         {
             int newhauteur = Convert.ToInt32(GetHauteur * pourcentage);
@@ -363,7 +376,10 @@ namespace TD_2
 
             From_Image_To_File(filename);
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="angle"></param>
         public void Rotation(double angle)
         {
             angle = (angle / 180.0) * Math.PI;
@@ -380,8 +396,10 @@ namespace TD_2
                 {
                     double r = Math.Sqrt(Math.Pow(i - center[0], 2) + Math.Pow(j - center[1], 2));
                     double theta = Math.Atan2(i - center[0], j - center[1]) + angle;
+
                     x_max = (x_max < r * Math.Cos(theta)) ? (int)(r * Math.Cos(theta)) : x_max;
                     x_min = (x_min > r * Math.Cos(theta)) ? (int)(r * Math.Cos(theta)) : x_min;
+
                     y_max = (y_max < r * Math.Sin(theta)) ? (int)(r * Math.Sin(theta)) : y_max;
                     y_min = (y_min > r * Math.Sin(theta)) ? (int)(r * Math.Sin(theta)) : y_min;
                 }
@@ -398,17 +416,12 @@ namespace TD_2
                 {
                     double rayon = Math.Sqrt(Math.Pow(i - new_center[0], 2) + Math.Pow(j - new_center[1], 2));
                     double theta = Math.Atan2(j - new_center[1], i - new_center[0]) - angle;
+
                     int new_x = (int)(center[0] + rayon * Math.Cos(theta));
                     int new_y = (int)(center[1] + rayon * Math.Sin(theta));
-                    if (new_x >= 0 && new_x < GetMatrice_image_RGB.GetLength(0) && new_y >= 0 && new_y < GetMatrice_image_RGB.GetLength(1))
-                    {
-                        newmatrice_image_RGB[i, j] = GetMatrice_image_RGB[new_x, new_y];
-                    }
-                    else
-                    {
-                        newmatrice_image_RGB[i, j] = p;
-                    }
 
+                    if (new_x >= 0 && new_x < GetMatrice_image_RGB.GetLength(0) && new_y >= 0 && new_y < GetMatrice_image_RGB.GetLength(1)) newmatrice_image_RGB[i, j] = GetMatrice_image_RGB[new_x, new_y];
+                    else newmatrice_image_RGB[i, j] = p;
                 }
             }
 
@@ -419,7 +432,9 @@ namespace TD_2
 
             From_Image_To_File(filename);
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         public void Miroir()
         {
             Pixel[,] newmatrice_image_RGB = new Pixel[GetHauteur, GetLargeur];
@@ -433,7 +448,9 @@ namespace TD_2
             this.GetMatrice_image_RGB = newmatrice_image_RGB;
             From_Image_To_File(filename);
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         public void Detection_de_contour()
         {
             Pixel[,] newmatrice_image_RGB = new Pixel[GetHauteur, GetLargeur];
@@ -490,7 +507,10 @@ namespace TD_2
             GetMatrice_image_RGB = newmatrice_image_RGB;
             From_Image_To_File(filename);
         }
-
+        
+        /// <summary>
+        /// 
+        /// </summary>
         public void Renforcement_des_bords()
         {
             Pixel[,] newmatrice_image_RGB = new Pixel[GetHauteur, GetLargeur];
@@ -546,7 +566,9 @@ namespace TD_2
             GetMatrice_image_RGB = newmatrice_image_RGB;
             From_Image_To_File(filename);
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         public void Flou()
         {
             Pixel[,] newmatrice_image_RGB = new Pixel[GetHauteur, GetLargeur];
@@ -606,6 +628,9 @@ namespace TD_2
             From_Image_To_File(filename);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public void Repoussage()
         {
             int[,] noyau_contours = { { -2, -1, 0 }, { -1, 1, 1 }, { 0, 1, 2 } };
