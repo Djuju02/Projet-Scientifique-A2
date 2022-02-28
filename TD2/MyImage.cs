@@ -347,14 +347,9 @@ namespace TD_2
             {
                 for (int j = 0; j < newmatrice_image_RGB.GetLength(1); j++)
                 {
-                    int div1 = (int)(((double)i * (double)GetMatrice_image_RGB.GetLength(0)) / (double)newmatrice_image_RGB.GetLength(0));
-                    int div2 = (int)(((double)j * (double)GetMatrice_image_RGB.GetLength(1)) / (double)newmatrice_image_RGB.GetLength(1));
-                    /*
-                    int div1 = Convert.ToInt32(i / pourcentage);
-                    int div2 = Convert.ToInt32(j / pourcentage);
-                    if (div1 >= GetHauteur) div1 = GetHauteur - 1;
-                    if (div2 >= GetLargeur) div2 = GetLargeur - 1;
-                    */
+                    int div1 = Convert.ToInt32((i * GetMatrice_image_RGB.GetLength(0)) / newmatrice_image_RGB.GetLength(0));
+                    int div2 = Convert.ToInt32((j * GetMatrice_image_RGB.GetLength(1)) / newmatrice_image_RGB.GetLength(1));
+
                     newmatrice_image_RGB[i, j] = new Pixel(GetMatrice_image_RGB[div1, div2].GetRouge, GetMatrice_image_RGB[div1, div2].GetVert, GetMatrice_image_RGB[div1, div2].GetBleu);
                 }
             }
@@ -393,6 +388,7 @@ namespace TD_2
             new_largeur = x_max - x_min + 1;
 
             Pixel[,] new_matrix = new Pixel[new_hauteur, new_largeur];
+            Pixel p = new Pixel(0, 0, 0);
             int[] new_center = { new_matrix.GetLength(0) / 2, new_matrix.GetLength(1) / 2 };
             for (int i = 0; i < new_matrix.GetLength(0); i++)
             {
@@ -406,9 +402,14 @@ namespace TD_2
                     {
                         new_matrix[i, j] = GetMatrice_image_RGB[new_x, new_y];
                     }
+                    else
+                    {
+                        new_matrix[i, j] = p;
+                    }
 
                 }
             }
+
             GetHauteur = new_hauteur;
             GetLargeur = new_largeur;
             GetMatrice_image_RGB = new_matrix;

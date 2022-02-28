@@ -55,13 +55,14 @@ namespace TD_2
                                     break;
 
                                 case 4:
-                                    double val = Convert.ToInt32(Console.ReadLine());
+                                    Console.Write("Veuillez saisir l'angle de rotation (sens horaire) que vous souhaitez appliquer à votre image -> ");
+                                    double val = Convert.ToDouble(Console.ReadLine());
                                     image1.Rotation(val);
                                     break;
 
                                 case 5:
                                     Console.Write("Veuillez saisir le pourcentage pour agrandir ou réduire votre image -> ");
-                                    double pourcentage = Convert.ToInt32(Console.ReadLine());
+                                    double pourcentage = Convert.ToDouble(Console.ReadLine());
                                     image1.AgrandissementRetrecissement(pourcentage);
                                     break;
 
@@ -114,13 +115,14 @@ namespace TD_2
                                     break;
 
                                 case 4:
-                                    double val = Convert.ToInt32(Console.ReadLine());
+                                    Console.Write("Veuillez saisir l'angle de rotation (sens horaire) que vous souhaitez appliquer à votre image -> ");
+                                    double val = Convert.ToDouble(Console.ReadLine());
                                     image2.Rotation(val);
                                     break;
 
                                 case 5:
                                     Console.Write("Veuillez saisir le pourcentage pour agrandir ou réduire votre image -> ");
-                                    double pourcentage = Convert.ToInt32(Console.ReadLine());
+                                    double pourcentage = Convert.ToDouble(Console.ReadLine());
                                     image2.AgrandissementRetrecissement(pourcentage);
                                     break;
 
@@ -173,13 +175,14 @@ namespace TD_2
                                     break;
 
                                 case 4:
-                                    double val = Convert.ToInt32(Console.ReadLine());
+                                    Console.Write("Veuillez saisir l'angle de rotation (sens horaire) que vous souhaitez appliquer à votre image -> ");
+                                    double val = Convert.ToDouble(Console.ReadLine());
                                     image3.Rotation(val);
                                     break;
 
                                 case 5:
                                     Console.Write("Veuillez saisir le pourcentage pour agrandir ou réduire votre image -> ");
-                                    double pourcentage = Convert.ToInt32(Console.ReadLine());
+                                    double pourcentage = Convert.ToDouble(Console.ReadLine());
                                     image3.AgrandissementRetrecissement(pourcentage);
                                     break;
 
@@ -232,13 +235,14 @@ namespace TD_2
                                     break;
 
                                 case 4:
-                                    double val = Convert.ToInt32(Console.ReadLine());
+                                    Console.Write("Veuillez saisir l'angle de rotation (sens horaire) que vous souhaitez appliquer à votre image -> ");
+                                    double val = Convert.ToDouble(Console.ReadLine());
                                     image4.Rotation(val);
                                     break;
 
                                 case 5:
                                     Console.Write("Veuillez saisir le pourcentage pour agrandir ou réduire votre image -> ");
-                                    double pourcentage = Convert.ToInt32(Console.ReadLine());
+                                    double pourcentage = Convert.ToDouble(Console.ReadLine());
                                     image4.AgrandissementRetrecissement(pourcentage);
                                     break;
 
