@@ -390,7 +390,7 @@ namespace TD_2
             new_largeur = x_max - x_min + 1;
 
             Pixel[,] newmatrice_image_RGB = new Pixel[new_hauteur, new_largeur];
-            Pixel p = new Pixel(249, 66, 158); //PRANKED
+            Pixel p = new Pixel(0, 0, 0);
             int[] new_center = { newmatrice_image_RGB.GetLength(0) / 2, newmatrice_image_RGB.GetLength(1) / 2 };
             for (int i = 0; i < newmatrice_image_RGB.GetLength(0); i++)
             {
