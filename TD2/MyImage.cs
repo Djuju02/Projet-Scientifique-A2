@@ -38,6 +38,15 @@ namespace TD_2
 
             int compteur = GetTaille_offset;
 
+            //Modulo 4
+            int vide = 0;
+
+            if (4 - (GetLargeur % 4) == 1) vide += 3;
+
+            if (4 - (GetLargeur % 4) == 2) vide += 2;
+
+            if (4 - (GetLargeur % 4) == 3) vide += 1;
+
             for (int i = 0; i < GetHauteur; i++)
             {
                 for (int j = 0; j < GetLargeur; j++)
@@ -45,6 +54,7 @@ namespace TD_2
                     this.matrice_image_RGB[i, j] = new Pixel(myfile[compteur], myfile[compteur + 1], myfile[compteur + 2]);
                     compteur += 3;
                 }
+                compteur += vide;
             }
         }
 
@@ -448,64 +458,19 @@ namespace TD_2
             this.GetMatrice_image_RGB = newmatrice_image_RGB;
             From_Image_To_File(filename);
         }
+
         /// <summary>
         /// 
         /// </summary>
         public void Detection_de_contour()
         {
-            Pixel[,] newmatrice_image_RGB = new Pixel[GetHauteur, GetLargeur];
-            Pixel p = new Pixel(0, 0, 0);
-            
             //int[,] noyau_contours = { { 1, 0, -1 },{ 0, 0, 0 },{ -1, 0, 1 } };
             //int[,] noyau_contours = { { 0, 1, 0 }, { 1, -4, 1 }, { 0, 1, 0 } };
             int[,] noyau_contours = { { -1, -1, -1 }, { -1, 8, -1 }, { -1, -1, -1 } };
-            
-            int moyenneR;
-            int moyenneG;
-            int moyenneB;
-            int compteurColonne = 0;
-            int compteurLigne = 0;
 
-            for (int x = 0; x < GetHauteur; x++)
-            {
-                for (int y = 0; y < GetLargeur; y++)
-                {
-                    if (x == 0 || x == GetHauteur - 1 || y == 0 || y == GetLargeur - 1) newmatrice_image_RGB[x, y] = p;
-                }
-            }
+            int div = 1;
 
-            for (int i = 1; i < GetHauteur-1; i++)
-            {
-                for (int j = 1; j < GetLargeur-1; j++)
-                {
-                    moyenneR = 0;
-                    moyenneG = 0;
-                    moyenneB = 0;
-
-                    for (int a = i-1; a <= i+1; a++)
-                    {
-                        for (int b = j - 1; b <= j + 1; b++)
-                        {
-                            moyenneR += GetMatrice_image_RGB[a, b].GetRouge * noyau_contours[compteurLigne, compteurColonne];
-                            moyenneG += GetMatrice_image_RGB[a, b].GetVert * noyau_contours[compteurLigne, compteurColonne];
-                            moyenneB += GetMatrice_image_RGB[a, b].GetBleu * noyau_contours[compteurLigne, compteurColonne];
-
-                            compteurColonne++;
-                        }
-                        compteurColonne = 0;
-                        compteurLigne++;
-                    }
-                    compteurLigne = 0;
-
-                    if (moyenneR < 0) moyenneR = 0;
-                    if (moyenneG < 0) moyenneG = 0;
-                    if (moyenneB < 0) moyenneB = 0;
-
-                    newmatrice_image_RGB[i, j] = new Pixel((byte)moyenneR, (byte)moyenneG, (byte)moyenneB);
-                }
-            }
-            GetMatrice_image_RGB = newmatrice_image_RGB;
-            From_Image_To_File(filename);
+            Covolution(noyau_contours, div);
         }
         
         /// <summary>
@@ -513,72 +478,46 @@ namespace TD_2
         /// </summary>
         public void Renforcement_des_bords()
         {
-            Pixel[,] newmatrice_image_RGB = new Pixel[GetHauteur, GetLargeur];
-            Pixel p = new Pixel(0, 0, 0);
+            int[,] noyau_bords = { { 0, -1, 0 }, { -1, 5, -1 }, { 0, -1, 0 } };
+            int div = 1;
 
-            int[,] noyau_contours = { { 0, -1, 0 }, { -1, 5, -1 }, { 0, -1, 0 } };
-
-            int moyenneR;
-            int moyenneG;
-            int moyenneB;
-            int compteurColonne = 0;
-            int compteurLigne = 0;
-
-            for (int x = 0; x < GetHauteur; x++)
-            {
-                for (int y = 0; y < GetLargeur; y++)
-                {
-                    if (x == 0 || x == GetHauteur - 1 || y == 0 || y == GetLargeur - 1) newmatrice_image_RGB[x, y] = p;
-                }
-            }
-
-            for (int i = 1; i < GetHauteur - 1; i++)
-            {
-                for (int j = 1; j < GetLargeur - 1; j++)
-                {
-                    moyenneR = 0;
-                    moyenneG = 0;
-                    moyenneB = 0;
-
-                    for (int a = i - 1; a <= i + 1; a++)
-                    {
-                        for (int b = j - 1; b <= j + 1; b++)
-                        {
-                            moyenneR += GetMatrice_image_RGB[a, b].GetRouge * noyau_contours[compteurLigne, compteurColonne];
-                            moyenneG += GetMatrice_image_RGB[a, b].GetVert * noyau_contours[compteurLigne, compteurColonne];
-                            moyenneB += GetMatrice_image_RGB[a, b].GetBleu * noyau_contours[compteurLigne, compteurColonne];
-
-                            compteurColonne++;
-                        }
-                        compteurColonne = 0;
-                        compteurLigne++;
-                    }
-
-                    compteurLigne = 0;
-
-                    if (moyenneR < 0) moyenneR = 0;
-                    if (moyenneG < 0) moyenneG = 0;
-                    if (moyenneB < 0) moyenneB = 0;
-
-                    newmatrice_image_RGB[i, j] = new Pixel((byte)moyenneR, (byte)moyenneG, (byte)moyenneB);
-                }
-            }
-            GetMatrice_image_RGB = newmatrice_image_RGB;
-            From_Image_To_File(filename);
+            Covolution(noyau_bords, div);
         }
+
         /// <summary>
         /// 
         /// </summary>
         public void Flou()
         {
-            Pixel[,] newmatrice_image_RGB = new Pixel[GetHauteur, GetLargeur];
-            Pixel p = new Pixel(0, 0, 0);
-
-            int[,] noyau_contours = { { 1, 1, 1 }, { 1, 1, 1 }, { 1, 1, 1 } };
-            //int[,] noyau_contours = { { 1, 2, 1 }, { 2, 4, 2 }, { 1, 2, 1 } };
+            int[,] noyau_flou = { { 1, 1, 1 }, { 1, 1, 1 }, { 1, 1, 1 } };
+            //int[,] noyau_flou = { { 1, 2, 1 }, { 2, 4, 2 }, { 1, 2, 1 } };
 
             int div = 9;
             //int div = 16;
+            Covolution(noyau_flou, div);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public void Repoussage()
+        {
+            int[,] noyau_repoussage = { { -2, -1, 0 }, { -1, 1, 1 }, { 0, 1, 2 } };
+
+            int div = 1;
+
+            Covolution(noyau_repoussage, div);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="mat"></param>
+        /// <param name="div"></param>
+        public void Covolution(int[,] mat, int div)
+        {
+            Pixel[,] newmatrice_image_RGB = new Pixel[GetHauteur, GetLargeur];
+            Pixel p = new Pixel(0, 0, 0);
 
             int moyenneR;
             int moyenneG;
@@ -586,29 +525,33 @@ namespace TD_2
             int compteurColonne = 0;
             int compteurLigne = 0;
 
-            for (int x = 0; x < GetHauteur; x++)
+            for (int i = 0; i < GetHauteur; i++)
             {
-                for (int y = 0; y < GetLargeur; y++)
-                {
-                    if (x == 0 || x == GetHauteur - 1 || y == 0 || y == GetLargeur - 1) newmatrice_image_RGB[x, y] = p;
-                }
-            }
-
-            for (int i = 1; i < GetHauteur - 1; i++)
-            {
-                for (int j = 1; j < GetLargeur - 1; j++)
+                for (int j = 0; j < GetLargeur; j++)
                 {
                     moyenneR = 0;
                     moyenneG = 0;
                     moyenneB = 0;
+                    int c = 0;
+                    int d = 0;
 
                     for (int a = i - 1; a <= i + 1; a++)
                     {
                         for (int b = j - 1; b <= j + 1; b++)
                         {
-                            moyenneR += GetMatrice_image_RGB[a, b].GetRouge * noyau_contours[compteurLigne, compteurColonne];
-                            moyenneG += GetMatrice_image_RGB[a, b].GetVert * noyau_contours[compteurLigne, compteurColonne];
-                            moyenneB += GetMatrice_image_RGB[a, b].GetBleu * noyau_contours[compteurLigne, compteurColonne];
+                            if (i > 0 && i < GetHauteur - 1 && j > 0 && j < GetLargeur - 1)
+                            {
+                                c = a;
+                                d = b;
+                            }
+                            if (a == -1) c = GetHauteur - 1;
+                            if (a == GetHauteur) c = 0;
+                            if (b == -1) d = GetLargeur - 1;
+                            if (b == GetLargeur) d = 0;
+
+                            moyenneR += GetMatrice_image_RGB[c, d].GetRouge * mat[compteurLigne, compteurColonne];
+                            moyenneG += GetMatrice_image_RGB[c, d].GetVert * mat[compteurLigne, compteurColonne];
+                            moyenneB += GetMatrice_image_RGB[c, d].GetBleu * mat[compteurLigne, compteurColonne];
 
                             compteurColonne++;
                         }
@@ -621,63 +564,12 @@ namespace TD_2
                     moyenneG /= div;
                     moyenneB /= div;
 
-                    newmatrice_image_RGB[i, j] = new Pixel((byte)moyenneR, (byte)moyenneG, (byte)moyenneB);
-                }
-            }
-            GetMatrice_image_RGB = newmatrice_image_RGB;
-            From_Image_To_File(filename);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public void Repoussage()
-        {
-            int[,] noyau_contours = { { -2, -1, 0 }, { -1, 1, 1 }, { 0, 1, 2 } };
-
-            Pixel[,] newmatrice_image_RGB = new Pixel[GetHauteur, GetLargeur];
-            Pixel p = new Pixel(0, 0, 0);
-
-            int moyenneR;
-            int moyenneG;
-            int moyenneB;
-            int compteurColonne = 0;
-            int compteurLigne = 0;
-
-            for (int x = 0; x < GetHauteur; x++)
-            {
-                for (int y = 0; y < GetLargeur; y++)
-                {
-                    if (x == 0 || x == GetHauteur - 1 || y == 0 || y == GetLargeur - 1) newmatrice_image_RGB[x, y] = p;
-                }
-            }
-
-            for (int i = 1; i < GetHauteur - 1; i++)
-            {
-                for (int j = 1; j < GetLargeur - 1; j++)
-                {
-                    moyenneR = 0;
-                    moyenneG = 0;
-                    moyenneB = 0;
-
-                    for (int a = i - 1; a <= i + 1; a++)
-                    {
-                        for (int b = j - 1; b <= j + 1; b++)
-                        {
-                            moyenneR += GetMatrice_image_RGB[a, b].GetRouge * noyau_contours[compteurLigne, compteurColonne];
-                            moyenneG += GetMatrice_image_RGB[a, b].GetVert * noyau_contours[compteurLigne, compteurColonne];
-                            moyenneB += GetMatrice_image_RGB[a, b].GetBleu * noyau_contours[compteurLigne, compteurColonne];
-
-                            compteurColonne++;
-                        }
-                        compteurColonne = 0;
-                        compteurLigne++;
-                    }
-                    compteurLigne = 0;
-
                     if (moyenneR < 0) moyenneR = 0;
                     if (moyenneG < 0) moyenneG = 0;
                     if (moyenneB < 0) moyenneB = 0;
+                    if (moyenneR > 255) moyenneR = 255;
+                    if (moyenneG > 255) moyenneG = 255;
+                    if (moyenneB > 255) moyenneB = 255;
 
                     newmatrice_image_RGB[i, j] = new Pixel((byte)moyenneR, (byte)moyenneG, (byte)moyenneB);
                 }
@@ -685,6 +577,155 @@ namespace TD_2
             GetMatrice_image_RGB = newmatrice_image_RGB;
             From_Image_To_File(filename);
         }
+
+
+        public void Fractale()
+        {
+            
+        }
+
+        public void Histogramme()
+        {
+            Console.WriteLine("Il existe deux types d'histogramme :");
+            Console.WriteLine("1 - RGB\n2 - Noir et blanc\n");
+            Console.Write("Veuillez séléctionner le type d'histogramme souhaiter -> ");
+
+            int choix = Convert.ToInt32(Console.ReadLine());
+            if (choix <= 0 || choix > 2)
+            {
+                while (choix <= 0 || choix > 2)
+                {
+                    Console.WriteLine("\n********** Valeur erronée ! **********");
+                    Console.Write("\nVeuillez saisir un numéro valide entre 1 et 2 -> ");
+                    choix = Convert.ToInt32(Console.ReadLine());
+                }
+            }
+            Console.Clear();
+            switch(choix)
+            {
+                case 1:
+                    Console.WriteLine("Histogramme RGB");
+
+                    Pixel r = new Pixel(255, 0, 0);
+                    Pixel g = new Pixel(0, 255, 0);
+                    Pixel b = new Pixel(0, 0, 255);
+
+                    int[] tab_r = new int[256];
+                    int[] tab_g = new int[256];
+                    int[] tab_b = new int[256];
+
+                    for(int i = 0; i<tab_r.Length; i++) tab_r[i] = Compteur_pixel(GetMatrice_image_RGB, (byte)i, "r") / 10;
+
+                    for (int i = 0; i < tab_g.Length; i++) tab_g[i] = Compteur_pixel(GetMatrice_image_RGB, (byte)i, "g") / 10;
+                    
+                    for (int i = 0; i < tab_b.Length; i++) tab_b[i] = Compteur_pixel(GetMatrice_image_RGB, (byte)i, "b") / 10;
+
+                    int max = 0;
+
+                    max = (Maximum(tab_r) > Maximum(tab_g)) ? Maximum(tab_r) : Maximum(tab_g);
+                    max = (max > Maximum(tab_b))? max : Maximum(tab_b);
+
+                    Pixel[,] histo = new Pixel[max, 3 * 256 + 20];
+
+                    for(int i = 0; i < 256; i++)
+                    {
+                        for(int j = 0; j < tab_r[i]; j++)
+                        {
+                            histo[i, j] = r;
+                        }
+                    }
+
+                    for (int i = (256 + 10) * 1; i < 256 * 2 + 10; i++)
+                    {
+                        for (int j = 0; j < tab_g[i-256-10]; j++)
+                        {
+                            histo[i, j] = g;
+                        }
+                    }
+
+                    for (int i = (256 + 10) * 2; i < 256 * 3 + 10 * 2; i++)
+                    {
+                        for (int j = 0; j < tab_b[(256 + 10) * 2]; j++)
+                        {
+                            histo[i, j] = b;
+                        }
+                    }
+
+                    GetMatrice_image_RGB = histo;
+
+                    break;
+
+                case 2:
+                    Console.WriteLine("Histogramme noir et blanc");
+
+                    Pixel gris = new Pixel(172, 172, 172);
+
+                    int[] tab_gris = new int[256];
+
+                    for (int i = 0; i < tab_gris.Length; i++) tab_gris[i] = Compteur_pixel(GetMatrice_image_RGB, (byte)i, "gris") / 10;
+
+                    Pixel[,] histogris = new Pixel[Maximum(tab_gris), 256];
+
+                    for (int i = 0; i < 256; i++)
+                    {
+                        for (int j = 0; j < tab_gris[i]; j++)
+                        {
+                            histogris[i, j] = gris;
+                        }
+                    }
+
+                    GetMatrice_image_RGB = histogris;
+
+                    break;
+            }
+            From_Image_To_File(filename);
+        }
+
+        public int Compteur_pixel(Pixel[,] image, byte temp, string couleur )
+        {
+            int compteur = 0;
+            
+            for(int i = 0; i < image.GetLength(0); i++)
+            {
+                for (int j = 0; j < image.GetLength(1); j++)
+                {
+                    if(couleur == "r")
+                    {
+                        if (GetMatrice_image_RGB[i, j].GetRouge == temp) compteur++;
+                    }
+                    else if (couleur == "g")
+                    {
+                        if (GetMatrice_image_RGB[i, j].GetVert == temp) compteur++;
+                    }
+                    else if (couleur == "b")
+                    {
+                        if (GetMatrice_image_RGB[i, j].GetBleu == temp) compteur++;
+                    }
+                    else if (couleur == "gris")
+                    {
+                        if ((GetMatrice_image_RGB[i, j].GetRouge + GetMatrice_image_RGB[i, j].GetVert + GetMatrice_image_RGB[i, j].GetBleu) /3 == temp) compteur++;
+                    }
+                }
+            }
+            return compteur;
+        }
+
+        public int Maximum (int[] tab)
+        {
+            int maximum = 0;
+            foreach (int element in tab)
+            {
+                if (element > maximum) maximum = element;
+            }
+            return maximum;
+        }
+
+
+        public void Codeur()
+        {
+
+        }
+
 
     }
 }

@@ -72,16 +72,19 @@ namespace TD_2
                         "\n8 - Renforcement des bords" +
                         "\n9 - Flou" +
                         "\n10 - Repoussage" +
+                        "\n11 - Création d'une image décrivant une fractale" +
+                        "\n12 - Création d'un histogramme de l'image" +
+                        "\n13 - Coder et décoder une image dans une image" +
                         "\n");
                     Console.Write("Veuillez saisir le numéro de l'action désirée -> ");
                     int lecture_action = Convert.ToInt32(Console.ReadLine());
 
-                    if (lecture_action <= 0 || lecture_action > 10)
+                    if (lecture_action <= 0 || lecture_action > 13)
                     {
-                        while (lecture_action <= 0 || lecture_action > 10)
+                        while (lecture_action <= 0 || lecture_action > 13)
                         {
                             Console.WriteLine("\n********** Valeur erronée ! **********");
-                            Console.Write("\nVeuillez saisir un numéro valide entre 1 et 10 -> ");
+                            Console.Write("\nVeuillez saisir un numéro valide entre 1 et 13 -> ");
                             lecture_action = Convert.ToInt32(Console.ReadLine());
                         }
                     }
@@ -134,7 +137,20 @@ namespace TD_2
                         case 10:
                             image.Repoussage();
                             break;
+
+                        case 11:
+                            image.Fractale();
+                            break;
+
+                        case 12:
+                            image.Histogramme();
+                            break;
+
+                        case 13:
+                            image.Codeur();
+                            break;
                     }
+                    Console.Clear();
                     if (lecture_action != 1) Console.WriteLine("Enregistrement effectué !");
                     Console.Write("\nAppuyez pour continuer");
                     Console.ReadKey();
@@ -143,7 +159,17 @@ namespace TD_2
                     Console.WriteLine("1 - Oui\n2 - Non\n");
                     Console.Write("Veuillez saisir votre choix -> ");
 
-                    if (Convert.ToInt32(Console.ReadLine()) == 2) mémoire = 0;
+                    int choix = Convert.ToInt32(Console.ReadLine());
+                    if (choix <= 0 || choix > 2)
+                    {
+                        while (choix <= 0 || choix > 2)
+                        {
+                            Console.WriteLine("\n********** Valeur erronée ! **********");
+                            Console.Write("\nVeuillez saisir un numéro valide entre 1 et 2 -> ");
+                            choix = Convert.ToInt32(Console.ReadLine());
+                        }
+                    }
+                    if (choix == 2) mémoire = 0;
                     Console.Clear();
                 }
 
