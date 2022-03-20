@@ -186,7 +186,7 @@ namespace TD_2
         {
             //Modulo 4
             int add = 0;
-            
+
             if (4 - (GetLargeur % 4) == 1) add += 3;
 
             if (4 - (GetLargeur % 4) == 2) add += 2;
@@ -303,6 +303,7 @@ namespace TD_2
             Console.WriteLine("La résolution verticale de l'image est de " + GetHauteur + " pixels");
             Console.WriteLine("La résolution horizontale de l'image est de " + GetLargeur + " pixels");
             Console.WriteLine("Le nombre de bits par couleur est de " + GetNb_bits_couleur + " bits");
+            Console.ReadKey();
         }
         /// <summary>
         /// 
@@ -472,7 +473,7 @@ namespace TD_2
 
             Covolution(noyau_contours, div);
         }
-        
+
         /// <summary>
         /// 
         /// </summary>
@@ -581,7 +582,7 @@ namespace TD_2
 
         public void Fractale()
         {
-            
+
         }
 
         public void Histogramme()
@@ -601,58 +602,82 @@ namespace TD_2
                 }
             }
             Console.Clear();
-            switch(choix)
+            switch (choix)
             {
                 case 1:
                     Console.WriteLine("Histogramme RGB");
-
-                    Pixel r = new Pixel(255, 0, 0);
-                    Pixel g = new Pixel(0, 255, 0);
-                    Pixel b = new Pixel(0, 0, 255);
 
                     int[] tab_r = new int[256];
                     int[] tab_g = new int[256];
                     int[] tab_b = new int[256];
 
-                    for(int i = 0; i<tab_r.Length; i++) tab_r[i] = Compteur_pixel(GetMatrice_image_RGB, (byte)i, "r") / 10;
+                    int val;
 
-                    for (int i = 0; i < tab_g.Length; i++) tab_g[i] = Compteur_pixel(GetMatrice_image_RGB, (byte)i, "g") / 10;
-                    
-                    for (int i = 0; i < tab_b.Length; i++) tab_b[i] = Compteur_pixel(GetMatrice_image_RGB, (byte)i, "b") / 10;
-
-                    int max = 0;
-
-                    max = (Maximum(tab_r) > Maximum(tab_g)) ? Maximum(tab_r) : Maximum(tab_g);
-                    max = (max > Maximum(tab_b))? max : Maximum(tab_b);
-
-                    Pixel[,] histo = new Pixel[max, 3 * 256 + 20];
-
-                    for(int i = 0; i < 256; i++)
+                    Pixel[,] histo = new Pixel[100, 3 * 256 + 20];
+                    Pixel p = new Pixel(0, 0, 0);
+                    Pixel r = new Pixel(255, 0, 0);
+                    Pixel g = new Pixel(0, 255, 0);
+                    Pixel b = new Pixel(0, 0, 255);
+                    for (int i = 0; i < histo.GetLength(0); i++)
                     {
-                        for(int j = 0; j < tab_r[i]; j++)
+                        for (int j = 0; j < histo.GetLength(1); j++)
                         {
-                            histo[i, j] = r;
+                            histo[i, j] = p;
                         }
                     }
 
-                    for (int i = (256 + 10) * 1; i < 256 * 2 + 10; i++)
-                    {
-                        for (int j = 0; j < tab_g[i-256-10]; j++)
-                        {
-                            histo[i, j] = g;
-                        }
-                    }
-
-                    for (int i = (256 + 10) * 2; i < 256 * 3 + 10 * 2; i++)
-                    {
-                        for (int j = 0; j < tab_b[(256 + 10) * 2]; j++)
-                        {
-                            histo[i, j] = b;
-                        }
-                    }
-
+                    GetHauteur = histo.GetLength(0);
+                    GetLargeur = histo.GetLength(1);
                     GetMatrice_image_RGB = histo;
+                    GetTaille_fichier = GetHauteur * GetLargeur * 3;
+                    From_Image_To_File(filename);
 
+                    for (int i = 0; i<GetMatrice_image_RGB.GetLength(0); i++)
+                    {
+                        val = 0;
+                        for (int j = 0; j < GetMatrice_image_RGB.GetLength(1); j++)
+                        {
+                            val = GetMatrice_image_RGB[i, j].GetRouge;
+                            tab_r[val]++;
+                            val = GetMatrice_image_RGB[i, j].GetVert;
+                            tab_g[val]++;
+                            val = GetMatrice_image_RGB[i, j].GetBleu;
+                            tab_b[val]++;
+                        }
+                    }
+
+                    for (int j = 0; j <= 255; j++)
+                    {
+                        tab_r[j] = (tab_r[j] / GetMatrice_image_RGB.Length)*100;
+                        tab_g[j] = (tab_g[j] / GetMatrice_image_RGB.Length)*100;
+                        tab_b[j] = (tab_b[j] / GetMatrice_image_RGB.Length)*100;
+                    }
+
+                    //test
+                    for (int i = 0; i < histo.GetLength(0); i++)
+                    {
+                        int val1 = tab_r[i];
+                        for (int j = 99; j >= 99 - tab_r[i]+1; j--)
+                        {
+                            histo[j, i] = r;
+                        }
+
+                        for (int j = 99; j >= 99 - tab_g[i]+1; j--)
+                        {
+                            histo[j + 255 + 10, i] = g;
+                        }
+
+                        for (int j = 99; j > 99 - tab_b[i]+1; j--)
+                        {
+                            histo[j + 255 * 2 + 20, i] = b;
+                        }
+                    }
+
+                    GetHauteur = histo.GetLength(0);
+                    GetLargeur = histo.GetLength(1);
+                    GetMatrice_image_RGB = histo;
+                    GetTaille_fichier = GetHauteur * GetLargeur * 3;
+                    From_Image_To_File(filename);
                     break;
 
                 case 2:
@@ -660,57 +685,13 @@ namespace TD_2
 
                     Pixel gris = new Pixel(172, 172, 172);
 
-                    int[] tab_gris = new int[256];
-
-                    for (int i = 0; i < tab_gris.Length; i++) tab_gris[i] = Compteur_pixel(GetMatrice_image_RGB, (byte)i, "gris") / 10;
-
-                    Pixel[,] histogris = new Pixel[Maximum(tab_gris), 256];
-
-                    for (int i = 0; i < 256; i++)
-                    {
-                        for (int j = 0; j < tab_gris[i]; j++)
-                        {
-                            histogris[i, j] = gris;
-                        }
-                    }
-
-                    GetMatrice_image_RGB = histogris;
 
                     break;
             }
-            From_Image_To_File(filename);
+
         }
 
-        public int Compteur_pixel(Pixel[,] image, byte temp, string couleur )
-        {
-            int compteur = 0;
-            
-            for(int i = 0; i < image.GetLength(0); i++)
-            {
-                for (int j = 0; j < image.GetLength(1); j++)
-                {
-                    if(couleur == "r")
-                    {
-                        if (GetMatrice_image_RGB[i, j].GetRouge == temp) compteur++;
-                    }
-                    else if (couleur == "g")
-                    {
-                        if (GetMatrice_image_RGB[i, j].GetVert == temp) compteur++;
-                    }
-                    else if (couleur == "b")
-                    {
-                        if (GetMatrice_image_RGB[i, j].GetBleu == temp) compteur++;
-                    }
-                    else if (couleur == "gris")
-                    {
-                        if ((GetMatrice_image_RGB[i, j].GetRouge + GetMatrice_image_RGB[i, j].GetVert + GetMatrice_image_RGB[i, j].GetBleu) /3 == temp) compteur++;
-                    }
-                }
-            }
-            return compteur;
-        }
-
-        public int Maximum (int[] tab)
+        public int Maximum(int[] tab)
         {
             int maximum = 0;
             foreach (int element in tab)
@@ -723,7 +704,7 @@ namespace TD_2
 
         public void Codeur()
         {
-
+            
         }
 
 
