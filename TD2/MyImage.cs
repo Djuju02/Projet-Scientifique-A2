@@ -123,7 +123,7 @@ namespace TD_2
             set { this.matrice_image_RGB = value; }
         }
         /// <summary>
-        /// 
+        /// Convert endian to int
         /// </summary>
         /// <param name="tab"></param>
         /// <param name="val1"></param>
@@ -157,7 +157,7 @@ namespace TD_2
 
         //2000 = 0*256^3 + 0*256^2 + 7*256^1+ 208*256^0
         /// <summary>
-        /// 
+        /// Convertir int to endian
         /// </summary>
         /// <param name="val"></param>
         /// <returns></returns>
@@ -179,7 +179,7 @@ namespace TD_2
 
         //pour sauvegarder le fichier
         /// <summary>
-        /// 
+        /// From image to file
         /// </summary>
         /// <param name="myfile"></param>
         public void From_Image_To_File(string myfile)
@@ -461,7 +461,7 @@ namespace TD_2
         }
 
         /// <summary>
-        /// 
+        /// Detection de contour
         /// </summary>
         public void Detection_de_contour()
         {
@@ -471,22 +471,22 @@ namespace TD_2
 
             int div = 1;
 
-            Covolution(noyau_contours, div);
+            Convolution(noyau_contours, div);
         }
 
         /// <summary>
-        /// 
+        /// Renforcement des bords
         /// </summary>
         public void Renforcement_des_bords()
         {
             int[,] noyau_bords = { { 0, -1, 0 }, { -1, 5, -1 }, { 0, -1, 0 } };
             int div = 1;
 
-            Covolution(noyau_bords, div);
+            Convolution(noyau_bords, div);
         }
 
         /// <summary>
-        /// 
+        /// Flou
         /// </summary>
         public void Flou()
         {
@@ -495,11 +495,11 @@ namespace TD_2
 
             int div = 9;
             //int div = 16;
-            Covolution(noyau_flou, div);
+            Convolution(noyau_flou, div);
         }
 
         /// <summary>
-        /// 
+        /// Repoussage
         /// </summary>
         public void Repoussage()
         {
@@ -507,15 +507,15 @@ namespace TD_2
 
             int div = 1;
 
-            Covolution(noyau_repoussage, div);
+            Convolution(noyau_repoussage, div);
         }
 
         /// <summary>
-        /// 
+        /// Convolution
         /// </summary>
         /// <param name="mat"></param>
         /// <param name="div"></param>
-        public void Covolution(int[,] mat, int div)
+        public void Convolution(int[,] mat, int div)
         {
             Pixel[,] newmatrice_image_RGB = new Pixel[GetHauteur, GetLargeur];
             Pixel p = new Pixel(0, 0, 0);
@@ -579,12 +579,60 @@ namespace TD_2
             From_Image_To_File(filename);
         }
 
-
+        /// <summary>
+        /// Fractale
+        /// </summary>
         public void Fractale()
         {
+            GetHauteur = 3000;
+            GetLargeur = 3000;
+            int iteration_max = 50;
+            double c_r = 0;
+            double c_i = 0;
+            double z_r = 0;
+            double z_i = 0;
+            int k = 0;
+            double tmp = 0;
 
+            Pixel[,] fractale = new Pixel[GetHauteur, GetLargeur];
+
+            for (int i = 0; i < GetHauteur; i++)
+            {
+                for (int j = 0; j < GetLargeur; j++)
+                {
+                    c_r = (double)(i - (GetHauteur) / 2) / (double)(GetHauteur / 3 );
+                    c_i = (double)(j - (GetLargeur) / 2) / (double)(GetLargeur / 3);
+                    z_r = 0;
+                    z_i = 0;
+                    i = 0;
+
+                    while (i < iteration_max && z_r * z_r + z_i * z_i < 4)
+                    {
+                        tmp = z_r;
+                        z_r = z_r * z_r - z_i * z_i + c_r;
+                        z_i = 2 * z_i * tmp + c_i;
+                        i = i + 1;
+                    }
+                    if (i == iteration_max)
+                    {
+
+                        fractale[i, j] = new Pixel(0, 0, 0);
+                    }
+                    else
+                    {
+                        fractale[i, j] = new Pixel((byte)(k * 255 / iteration_max), 0, (byte)(k * 255 / iteration_max));
+
+                    }
+
+                }
+            }
+            GetMatrice_image_RGB = fractale;
+            GetTaille_fichier = GetHauteur * GetLargeur * 3;
+            From_Image_To_File(filename);
         }
-
+        /// <summary>
+        /// Histogramme
+        /// </summary>
         public void Histogramme()
         {
             Console.WriteLine("Il existe deux types d'histogramme :");
@@ -626,53 +674,53 @@ namespace TD_2
                         }
                     }
 
-                    GetHauteur = histo.GetLength(0);
-                    GetLargeur = histo.GetLength(1);
-                    GetMatrice_image_RGB = histo;
-                    GetTaille_fichier = GetHauteur * GetLargeur * 3;
-                    From_Image_To_File(filename);
-
                     for (int i = 0; i<GetMatrice_image_RGB.GetLength(0); i++)
                     {
                         val = 0;
                         for (int j = 0; j < GetMatrice_image_RGB.GetLength(1); j++)
                         {
-                            val = GetMatrice_image_RGB[i, j].GetRouge;
-                            tab_r[val]++;
-                            val = GetMatrice_image_RGB[i, j].GetVert;
-                            tab_g[val]++;
-                            val = GetMatrice_image_RGB[i, j].GetBleu;
-                            tab_b[val]++;
+                            tab_r[GetMatrice_image_RGB[i, j].GetRouge]++;
+                            tab_g[GetMatrice_image_RGB[i, j].GetVert]++;
+                            tab_b[GetMatrice_image_RGB[i, j].GetBleu]++;
                         }
+                    }
+                    
+                    int maxr = 0;
+                    int maxg = 0;
+                    int maxb = 0;
+
+                    for (int j = 0; j <= 255; j++)
+                    {
+                        if (tab_r[j]> maxr) maxr = tab_r[j];
+                        if (tab_g[j] > maxg) maxg = tab_g[j];
+                        if (tab_b[j] > maxb) maxb = tab_b[j];
                     }
 
                     for (int j = 0; j <= 255; j++)
                     {
-                        tab_r[j] = (tab_r[j] / GetMatrice_image_RGB.Length)*100;
-                        tab_g[j] = (tab_g[j] / GetMatrice_image_RGB.Length)*100;
-                        tab_b[j] = (tab_b[j] / GetMatrice_image_RGB.Length)*100;
+                        tab_r[j] = (tab_r[j] * 100/ maxr) ;
+                        tab_g[j] = (tab_g[j] * 100/ maxg) ;
+                        tab_b[j] = (tab_b[j] * 100/ maxb) ;
                     }
 
-                    //test
-                    for (int i = 0; i < histo.GetLength(0); i++)
+                    for (int i = 0; i <= 255; i++)
                     {
-                        int val1 = tab_r[i];
-                        for (int j = 99; j >= 99 - tab_r[i]+1; j--)
+                        for (int j = 0; j <= tab_r[i] && j <= 99; j++)
                         {
                             histo[j, i] = r;
                         }
 
-                        for (int j = 99; j >= 99 - tab_g[i]+1; j--)
+                        for (int j = 0; j <= tab_g[i] && j <= 99; j++)
                         {
-                            histo[j + 255 + 10, i] = g;
+                            histo[j, i + 256 + 10] = g;
                         }
 
-                        for (int j = 99; j > 99 - tab_b[i]+1; j--)
+                        for (int j = 0; j <= tab_b[i] && j <= 99; j++)
                         {
-                            histo[j + 255 * 2 + 20, i] = b;
+                            histo[j, i + 256*2 + 10*2] = b;
                         }
                     }
-
+                    
                     GetHauteur = histo.GetLength(0);
                     GetLargeur = histo.GetLength(1);
                     GetMatrice_image_RGB = histo;
@@ -683,30 +731,154 @@ namespace TD_2
                 case 2:
                     Console.WriteLine("Histogramme noir et blanc");
 
+                    int[] tab_gris = new int[256];
+                    int val2;
+
+                    Pixel[,] histo2 = new Pixel[100, 256];
+                    Pixel p2 = new Pixel(0, 0, 0);
                     Pixel gris = new Pixel(172, 172, 172);
 
+                    for (int i = 0; i < histo2.GetLength(0); i++)
+                    {
+                        for (int j = 0; j < histo2.GetLength(1); j++)
+                        {
+                            histo2[i, j] = p2;
+                        }
+                    }
 
+                    for (int i = 0; i < GetMatrice_image_RGB.GetLength(0); i++)
+                    {
+                        for (int j = 0; j < GetMatrice_image_RGB.GetLength(1); j++)
+                        {
+                            tab_gris[(GetMatrice_image_RGB[i, j].GetRouge+GetMatrice_image_RGB[i, j].GetVert+GetMatrice_image_RGB[i, j].GetBleu)/3]++;
+                        }
+                    }
+
+                    int maxgris = 0;
+
+                    for (int j = 0; j <= 255; j++)
+                    {
+                        if (tab_gris[j] > maxgris) maxgris = tab_gris[j];
+                    }
+
+                    for (int j = 0; j <= 255; j++)
+                    {
+                        tab_gris[j] = (tab_gris[j] * 100 / maxgris);
+                    }
+
+                    for (int i = 0; i <= 255; i++)
+                    {
+                        for (int j = 0; j <= tab_gris[i] && j <= 99; j++)
+                        {
+                            histo2[j, i] = gris;
+                        }
+                    }
+
+                    GetHauteur = histo2.GetLength(0);
+                    GetLargeur = histo2.GetLength(1);
+                    GetMatrice_image_RGB = histo2;
+                    GetTaille_fichier = GetHauteur * GetLargeur * 3;
+                    From_Image_To_File(filename);
                     break;
             }
-
         }
 
-        public int Maximum(int[] tab)
+        //----------Codeur----------
+        /*
+        public void HiddenPic(Pixel[,] image2)
         {
-            int maximum = 0;
-            foreach (int element in tab)
+            Pixel[,] image_retour = new Pixel[GetMatrice_image_RGB.GetLength(0), GetMatrice_image_RGB.GetLength(1)];
+            for (int i = 0; i < image_retour.GetLength(0); i++)
             {
-                if (element > maximum) maximum = element;
+                for (int n = 0; n < image_retour.GetLength(1); n++)
+                {
+                    image_retour[i, n].GetRouge = (byte)Convertir_Binairy_To_Int(Concaténer_tableaux(Convertir_Int_To_Binairy((int)this.GetMatrice_image_RGB[i, n].GetRouge), Convertir_Int_To_Binairy((int)image2[i, n].GetRouge)));
+                    image_retour[i, n].GetVert = (byte)Convertir_Binairy_To_Int(Concaténer_tableaux(Convertir_Int_To_Binairy((int)this.GetMatrice_image_RGB[i, n].GetVert), Convertir_Int_To_Binairy((int)image2[i, n].GetVert)));
+                    image_retour[i, n].GetBleu = (byte)Convertir_Binairy_To_Int(Concaténer_tableaux(Convertir_Int_To_Binairy((int)this.GetMatrice_image_RGB[i, n].GetBleu), Convertir_Int_To_Binairy((int)image2[i, n].GetBleu)));
+                }
             }
-            return maximum;
+            this.GetMatrice_image_RGB = image_retour;
         }
 
-
-        public void Codeur()
+        public void Retrouver_image()
         {
-            
+            Pixel[,] image_retour = new Pixel[GetMatrice_image_RGB.GetLength(0), GetMatrice_image_RGB.GetLength(1)];
+            for (int i = 0; i < image_retour.GetLength(0); i++)
+            {
+                for (int n = 0; n < image_retour.GetLength(1); n++)
+                {
+                    image_retour[i, n].GetRouge = (byte)Convertir_Binairy_To_Int(Recuperer_tableau(Convertir_Int_To_Binairy((int)this.GetMatrice_image_RGB[i, n].GetRouge)));
+                    image_retour[i, n].GetVert = (byte)Convertir_Binairy_To_Int(Recuperer_tableau(Convertir_Int_To_Binairy((int)this.GetMatrice_image_RGB[i, n].GetVert)));
+                    image_retour[i, n].GetBleu = (byte)Convertir_Binairy_To_Int(Recuperer_tableau(Convertir_Int_To_Binairy((int)this.GetMatrice_image_RGB[i, n].GetBleu)));
+                }
+            }
+            this.GetMatrice_image_RGB = image_retour;
         }
 
+        public int Convertir_Binairy_To_Int(int[] tab)
+        {
+            int s = 0;
+            for (int n = tab.Length - 1; n >= 0; n--)
+            {
+                s += tab[tab.Length - 1 - n] * Convert.ToInt32(Math.Pow(2, n));
+            }
+            return s;
+        }
 
+        public int[] Convertir_Int_To_Binairy(int entier)
+        {
+            int p = 0;
+            while ((entier / Convert.ToInt64(Math.Pow(2, p)) >= 1))
+            {
+                p++;
+            }
+            p--;
+            int[] retour = new int[8];
+            int[] temp = new int[8];
+            for (int i = 0; i < retour.Length; i++)
+            {
+                temp[i] = 0;
+            }
+            for (int i = p; i >= 0; i--)
+            {
+                temp[i] = Convert.ToByte(entier / Convert.ToInt64(Math.Pow(2, p)));
+                entier -= temp[i] * Convert.ToInt32(Math.Pow(2, p));
+                p--;
+            }
+            for (int i = 0; i < retour.Length; i++)
+            {
+                retour[i] = temp[retour.Length - i - 1];
+            }
+            return retour;
+        }
+
+        public int[] Concaténer_tableaux(int[] tab1, int[] tab2)
+        {
+            int[] retour = new int[8];
+            for (int i = 0; i < 4; i++)
+            {
+                retour[i] = tab1[i];
+            }
+            for (int i = 4; i < 8; i++)
+            {
+                retour[i] = tab2[i - 4];
+            }
+            return retour;
+        }
+
+        public int[] Recuperer_tableau(int[] tab)
+        {
+            int[] retour = new int[8];
+            for (int i = 0; i < retour.Length; i++)
+            {
+                retour[i] = 0;
+            }
+            for (int i = 0; i < 4; i++)
+            {
+                retour[i] = tab[4 + i];
+            }
+            return retour;
+        }
+        */
     }
 }

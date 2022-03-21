@@ -147,7 +147,7 @@ namespace TD_2
                             break;
 
                         case 13:
-                            image.Codeur();
+                            //image.Codeur();
                             break;
                     }
                     Console.Clear();
