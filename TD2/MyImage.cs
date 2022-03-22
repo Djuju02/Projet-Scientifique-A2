@@ -435,7 +435,7 @@ namespace TD_2
                     else newmatrice_image_RGB[i, j] = p;
                 }
             }
-
+            
             GetHauteur = new_hauteur;
             GetLargeur = new_largeur;
             GetMatrice_image_RGB = newmatrice_image_RGB;
@@ -600,20 +600,20 @@ namespace TD_2
             {
                 for (int j = 0; j < GetLargeur; j++)
                 {
-                    c_r = (double)(i - (GetHauteur) / 2) / (double)(GetHauteur / 3 );
+                    c_r = (double)(i - (GetHauteur) / 2) / (double)(GetHauteur / 3);
                     c_i = (double)(j - (GetLargeur) / 2) / (double)(GetLargeur / 3);
                     z_r = 0;
                     z_i = 0;
-                    i = 0;
+                    k = 0;
 
-                    while (i < iteration_max && z_r * z_r + z_i * z_i < 4)
+                    while (k < iteration_max && z_r * z_r + z_i * z_i < 4)
                     {
                         tmp = z_r;
                         z_r = z_r * z_r - z_i * z_i + c_r;
                         z_i = 2 * z_i * tmp + c_i;
-                        i = i + 1;
+                        k++;
                     }
-                    if (i == iteration_max)
+                    if (k == iteration_max)
                     {
 
                         fractale[i, j] = new Pixel(0, 0, 0);
@@ -621,9 +621,8 @@ namespace TD_2
                     else
                     {
                         fractale[i, j] = new Pixel((byte)(k * 255 / iteration_max), 0, (byte)(k * 255 / iteration_max));
-
+                        n
                     }
-
                 }
             }
             GetMatrice_image_RGB = fractale;
@@ -658,9 +657,7 @@ namespace TD_2
                     int[] tab_r = new int[256];
                     int[] tab_g = new int[256];
                     int[] tab_b = new int[256];
-
-                    int val;
-
+                    
                     Pixel[,] histo = new Pixel[100, 3 * 256 + 20];
                     Pixel p = new Pixel(0, 0, 0);
                     Pixel r = new Pixel(255, 0, 0);
@@ -676,7 +673,6 @@ namespace TD_2
 
                     for (int i = 0; i<GetMatrice_image_RGB.GetLength(0); i++)
                     {
-                        val = 0;
                         for (int j = 0; j < GetMatrice_image_RGB.GetLength(1); j++)
                         {
                             tab_r[GetMatrice_image_RGB[i, j].GetRouge]++;
@@ -732,7 +728,6 @@ namespace TD_2
                     Console.WriteLine("Histogramme noir et blanc");
 
                     int[] tab_gris = new int[256];
-                    int val2;
 
                     Pixel[,] histo2 = new Pixel[100, 256];
                     Pixel p2 = new Pixel(0, 0, 0);
@@ -784,7 +779,18 @@ namespace TD_2
         }
 
         //----------Codeur----------
-        /*
+        public void Codeur()
+        {
+
+        }
+        public void Decodeur()
+        {
+
+        }
+
+
+
+
         public void HiddenPic(Pixel[,] image2)
         {
             Pixel[,] image_retour = new Pixel[GetMatrice_image_RGB.GetLength(0), GetMatrice_image_RGB.GetLength(1)];
@@ -879,6 +885,73 @@ namespace TD_2
             }
             return retour;
         }
+
+        public void QR_Code(string mot)
+        {
+            mot = mot.ToUpper();
+            string[] tab = new string[mot.Length];
+
+            if (mot.Length%2 == 0)
+            {
+                for (int i = 0; i < mot.Length; i += 2)
+                {
+                    int a = mot[i] ;
+                    int b = mot[i + 1];
+
+                    ConvertionHexa(a, b);
+                    Console.WriteLine((int)a+" "+(int)b);
+                }
+            }
+            else
+            {
+                for (int i = 0; i < mot.Length-1; i += 2)
+                {
+                    int a = mot[i];
+                    int b = mot[i + 1];
+                    ConvertionHexa(a, b);
+                    Console.WriteLine((int)a +" " +(int)b);
+                }
+                ConvertionHexa(-1, (int)mot[mot.Length - 1]);
+                Console.WriteLine("00 " + (int)mot[mot.Length-1]);
+            }
+            Console.ReadKey();
+        }
+
+        public int ConvertionHexa(int a, int b)
+        {
+
+            return 0;
+        }
+
+
+        /*
+        public string Convert_Char_To_Binaire(char val1, char val2)
+        {
+            char[] tab = { val1, val2 };
+            string tabr;
+            tabr = getBinaire(val1) +" "+getBinaire(val2);
+            return tabr;
+        }
+
+        public string getBinaire(char lettre)
+        {
+            string binaire = "";
+            string retbinaire = "";
+            for (int i = 0; i < 8; i++)
+            {
+                if ((lettre & 1) == 1) binaire += "1";
+                else binaire += "0";
+                lettre >>= 1;
+            }
+
+            for (int i = 0; i < 8; i++)
+            {
+                retbinaire += binaire[binaire.Length-1-i];
+            }
+
+            return retbinaire;
+        }
         */
     }
 }
+

@@ -74,17 +74,19 @@ namespace TD_2
                         "\n10 - Repoussage" +
                         "\n11 - Création d'une image décrivant une fractale" +
                         "\n12 - Création d'un histogramme de l'image" +
-                        "\n13 - Coder et décoder une image dans une image" +
+                        "\n13 - Coder une image dans une image" +
+                        "\n14 - Décoder une image dans une image" +
+                        "\n15 - Générer un QR Code" +
                         "\n");
                     Console.Write("Veuillez saisir le numéro de l'action désirée -> ");
                     int lecture_action = Convert.ToInt32(Console.ReadLine());
 
-                    if (lecture_action <= 0 || lecture_action > 13)
+                    if (lecture_action <= 0 || lecture_action > 15)
                     {
-                        while (lecture_action <= 0 || lecture_action > 13)
+                        while (lecture_action <= 0 || lecture_action > 15)
                         {
                             Console.WriteLine("\n********** Valeur erronée ! **********");
-                            Console.Write("\nVeuillez saisir un numéro valide entre 1 et 13 -> ");
+                            Console.Write("\nVeuillez saisir un numéro valide entre 1 et 15 -> ");
                             lecture_action = Convert.ToInt32(Console.ReadLine());
                         }
                     }
@@ -147,7 +149,17 @@ namespace TD_2
                             break;
 
                         case 13:
-                            //image.Codeur();
+                            image.Codeur();
+                            break;
+
+                        case 14:
+                            image.Decodeur();
+                            break;
+
+                        case 15:
+                            Console.WriteLine("Veuillez saisir le lien à convertir -->");
+                            string mot = (string)Console.ReadLine();
+                            image.QR_Code(mot);
                             break;
                     }
                     Console.Clear();
