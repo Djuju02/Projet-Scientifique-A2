@@ -615,13 +615,11 @@ namespace TD_2
                     }
                     if (k == iteration_max)
                     {
-
                         fractale[i, j] = new Pixel(0, 0, 0);
                     }
                     else
                     {
                         fractale[i, j] = new Pixel((byte)(k * 255 / iteration_max), 0, (byte)(k * 255 / iteration_max));
-                        n
                     }
                 }
             }
@@ -891,67 +889,150 @@ namespace TD_2
             mot = mot.ToUpper();
             string[] tab = new string[mot.Length];
 
-            if (mot.Length%2 == 0)
-            {
-                for (int i = 0; i < mot.Length; i += 2)
-                {
-                    int a = mot[i] ;
-                    int b = mot[i + 1];
+            //-----------------------ETAPE 1--------------------------
 
-                    ConvertionHexa(a, b);
-                    Console.WriteLine((int)a+" "+(int)b);
+            string indi_mode = "0010";
+
+            //-----------------------ETAPE 2--------------------------
+
+            int memoire = tab.Length;
+            string indi_nb_char = null;
+
+            for (int puissance = 8; puissance >= 0; puissance--)
+            {
+                if (memoire - Math.Pow(2, puissance) >= 0)
+                {
+                    indi_nb_char += '1';
+                    memoire -= (int)Math.Pow(2, puissance);
                 }
+                else indi_nb_char += '0';
+            }
+
+            //-----------------------ETAPE 3--------------------------
+
+            string chaine = null;
+            for (int i = 0; i < mot.Length-1; i += 2)
+            {
+                chaine += ConvertionHexa(ConvertionEquivalent((int)mot[i]), ConvertionEquivalent((int)mot[i + 1]));
+            }
+            if (mot.Length%2 != 0)
+            {
+                chaine += ConvertionHexa(ConvertionEquivalent((int)mot[mot.Length - 1]),0);
+            }
+
+            //-----------------------ETAPE 4--------------------------
+
+            string chainetot = null;
+            string terminaison = null;
+            string multiple = null;
+            chainetot = indi_mode + indi_nb_char + chaine;
+            int nbtot = chainetot.Length;
+
+            if ((19*8 - nbtot) >= 4) 
+            {
+                chainetot += "0000";
+                terminaison += "0000";
             }
             else
             {
-                for (int i = 0; i < mot.Length-1; i += 2)
+                while ((19 * 8 - nbtot)!=0)
                 {
-                    int a = mot[i];
-                    int b = mot[i + 1];
-                    ConvertionHexa(a, b);
-                    Console.WriteLine((int)a +" " +(int)b);
+                    chainetot += "0";
+                    terminaison += "0";
+                    nbtot = chainetot.Length;
                 }
-                ConvertionHexa(-1, (int)mot[mot.Length - 1]);
-                Console.WriteLine("00 " + (int)mot[mot.Length-1]);
             }
+
+            //-----------------------ETAPE 5--------------------------
+
+            while (nbtot%8 != 0)
+            {
+                chainetot += "0";
+                multiple += "0";
+                nbtot = chainetot.Length;
+            }
+            //-----------------------Vérification--------------------------
+            Console.Write(indi_mode + " || " + indi_nb_char + " || "+ chaine + " || " + terminaison + " || " + multiple + "\n" + chainetot + " || " + nbtot + "\n\n");
+
+            //-----------------------ETAPE 6--------------------------
+
+            for(int i = ((19*8)-chainetot.Length)/8; i>0; i--)
+            {
+                if(((19*8 - chainetot.Length)/8) %2 != 0) chainetot += "11101100";
+                else chainetot += "00010001";
+            }
+                
+            nbtot = chainetot.Length;
+
+            //-----------------------Vérification--------------------------
+            Console.Write(chainetot + " || " + nbtot + "\n" + "\n");
+
+            //-----------------------ETAPE 7--------------------------
+            string convertion = null;
+            int nouveau = 0;
+
+            for (int i = 0; i<chainetot.Length; i+=8)
+            {
+                convertion = null;
+                for (int j = 0; j < 8; j++)
+                {
+                    convertion += chainetot[i+j];
+                }
+
+                nouveau = 0;
+
+                for (int k = 0; k < 8; k++)
+                {
+                    if (convertion[k] == '1') nouveau += (int)Math.Pow(2, 8-k-1);
+                }
+                Console.Write(nouveau + " ");
+                
+            }
+
+            //-----------------------Vérification--------------------------
             Console.ReadKey();
         }
 
-        public int ConvertionHexa(int a, int b)
+        public string ConvertionHexa(int a, int b)
         {
-
-            return 0;
-        }
-
-
-        /*
-        public string Convert_Char_To_Binaire(char val1, char val2)
-        {
-            char[] tab = { val1, val2 };
-            string tabr;
-            tabr = getBinaire(val1) +" "+getBinaire(val2);
-            return tabr;
-        }
-
-        public string getBinaire(char lettre)
-        {
-            string binaire = "";
-            string retbinaire = "";
-            for (int i = 0; i < 8; i++)
+            if (b == 0)
             {
-                if ((lettre & 1) == 1) binaire += "1";
-                else binaire += "0";
-                lettre >>= 1;
-            }
+                b = a;
+                a = 0;
+            }  
+            double c = Math.Pow(45, 1) * a + Math.Pow(45, 0)*b;
+            int memoire = (int)c;
+            string d = null;
+            int code = 10;
 
-            for (int i = 0; i < 8; i++)
+            if (a != 0) code = 10;
+            else code = 5;
+            
+            for (int puissance = code; puissance >= 0; puissance--)
             {
-                retbinaire += binaire[binaire.Length-1-i];
+                if (c - Math.Pow(2, puissance) >= 0)
+                {
+                    d += '1';
+                    c -= Math.Pow(2, puissance);
+                } 
+                else d += '0';
             }
-
-            return retbinaire;
+            //Console.WriteLine(a + " + " + b + " = " +memoire + " | " +d);
+            return d;
         }
-        */
+
+        public int ConvertionEquivalent(int a, int c = 0)
+        {
+            if (a >= 48 && a <= 57) c = a - 48;
+            if (a >= 65 && a <= 90) c = a - 55;
+            if (a == 32) c = 36;
+            if (a >= 36 && a <= 37) c = a + 1;
+            if (a >= 42 && a <= 43) c = a - 3;
+            if (a >= 44 && a <= 47) c = a - 4;
+            if (a == 58) c = 44;
+            return c;
+        }
+        //0123456789abcdefghijklmnopqrstuvwxyz $%*+-./:
     }
 }
 
