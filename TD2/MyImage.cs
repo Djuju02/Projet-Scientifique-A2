@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Collections.Generic;
 
 
 namespace TD_2
@@ -293,7 +294,7 @@ namespace TD_2
             File.WriteAllBytes("./Images enregistrée/SortieTest.bmp", filefinal);
         }
         /// <summary>
-        /// 
+        ///  
         /// </summary>
         public void Informations()
         {
@@ -685,7 +686,7 @@ namespace TD_2
 
                     for (int j = 0; j <= 255; j++)
                     {
-                        if (tab_r[j]> maxr) maxr = tab_r[j];
+                        if (tab_r[j] > maxr) maxr = tab_r[j];
                         if (tab_g[j] > maxg) maxg = tab_g[j];
                         if (tab_b[j] > maxb) maxb = tab_b[j];
                     }
@@ -712,6 +713,21 @@ namespace TD_2
                         for (int j = 0; j <= tab_b[i] && j <= 99; j++)
                         {
                             histo[j, i + 256*2 + 10*2] = b;
+                        }
+
+                        for (int j = 0; j <= tab_r[i] && j <= 99; j++)
+                        {
+                            histo[j, i + 256 * 3 + 10 * 3] = r;
+                        }
+
+                        for (int j = 0; j <= tab_g[i] && j <= 99; j++)
+                        {
+                            histo[j, i + 256 * 3 + 10 * 3] = g;
+                        }
+
+                        for (int j = 0; j <= tab_b[i] && j <= 99; j++)
+                        {
+                            histo[j, i + 256 * 3 + 10 * 3] = b;
                         }
                     }
                     
@@ -884,112 +900,168 @@ namespace TD_2
             return retour;
         }
 
+        public void Test()
+        {
+            List<byte> code1 = new List<byte>();
+            code1.Add(0);
+            code1.Add(0);
+            code1.Add(1);
+            code1.Add(0);
+            code1[1] += 2;
+
+            foreach(byte element in code1)
+            {
+                Console.WriteLine(element);
+            }
+            Console.ReadKey();
+        }
+
         public void QR_Code(string mot)
         {
+            List<byte> code1 = new List<byte>();
+            List<byte> code2 = new List<byte>();
             mot = mot.ToUpper();
             string[] tab = new string[mot.Length];
 
             //-----------------------ETAPE 1--------------------------
 
-            string indi_mode = "0010";
+            code1.Add(0);
+            code1.Add(0);
+            code1.Add(1);
+            code1.Add(0);
 
             //-----------------------ETAPE 2--------------------------
 
-            int memoire = tab.Length;
-            string indi_nb_char = null;
+            int memoire = mot.Length;
 
             for (int puissance = 8; puissance >= 0; puissance--)
             {
                 if (memoire - Math.Pow(2, puissance) >= 0)
                 {
-                    indi_nb_char += '1';
+                    code1.Add(1);
                     memoire -= (int)Math.Pow(2, puissance);
                 }
-                else indi_nb_char += '0';
+                else code1.Add(0);
             }
 
             //-----------------------ETAPE 3--------------------------
 
-            string chaine = null;
             for (int i = 0; i < mot.Length-1; i += 2)
             {
-                chaine += ConvertionHexa(ConvertionEquivalent((int)mot[i]), ConvertionEquivalent((int)mot[i + 1]));
+                string a = ConvertionHexa(ConvertionEquivalent((int)mot[i]), ConvertionEquivalent((int)mot[i + 1]));
+                foreach(char lettre in a)
+                {
+                    if (lettre == '1') code1.Add(1);
+                    else code1.Add(0);
+                }
             }
             if (mot.Length%2 != 0)
             {
-                chaine += ConvertionHexa(ConvertionEquivalent((int)mot[mot.Length - 1]),0);
+                string a = ConvertionHexa(ConvertionEquivalent((int)mot[mot.Length - 1]),0);
+                foreach (char lettre in a)
+                {
+                    if (lettre == '1') code1.Add(1);
+                    else code1.Add(0);
+                }
             }
 
             //-----------------------ETAPE 4--------------------------
 
-            string chainetot = null;
-            string terminaison = null;
-            string multiple = null;
-            chainetot = indi_mode + indi_nb_char + chaine;
-            int nbtot = chainetot.Length;
+            int nbtot = code1.Count;
 
             if ((19*8 - nbtot) >= 4) 
             {
-                chainetot += "0000";
-                terminaison += "0000";
+                code1.Add(0);
+                code1.Add(0);
+                code1.Add(0);
+                code1.Add(0);
             }
-            else
-            {
-                while ((19 * 8 - nbtot)!=0)
-                {
-                    chainetot += "0";
-                    terminaison += "0";
-                    nbtot = chainetot.Length;
-                }
-            }
+            else while ((19 * 8 - nbtot)!=0) code1.Add(0);
 
             //-----------------------ETAPE 5--------------------------
 
             while (nbtot%8 != 0)
             {
-                chainetot += "0";
-                multiple += "0";
-                nbtot = chainetot.Length;
+                code1.Add(0);
+                nbtot--;
             }
-            //-----------------------Vérification--------------------------
-            Console.Write(indi_mode + " || " + indi_nb_char + " || "+ chaine + " || " + terminaison + " || " + multiple + "\n" + chainetot + " || " + nbtot + "\n\n");
 
             //-----------------------ETAPE 6--------------------------
 
-            for(int i = ((19*8)-chainetot.Length)/8; i>0; i--)
+            for(int i = ((19*8)-code1.Count)/8; i>0; i--)
             {
-                if(((19*8 - chainetot.Length)/8) %2 != 0) chainetot += "11101100";
-                else chainetot += "00010001";
+                if(((19*8 - code1.Count) /8) %2 != 0)
+                {
+                    code1.Add(1);
+                    code1.Add(1);
+                    code1.Add(1);
+                    code1.Add(0);
+                    code1.Add(1);
+                    code1.Add(1);
+                    code1.Add(0);
+                    code1.Add(0);
+                }
+                    
+                else
+                {
+                    code1.Add(0);
+                    code1.Add(0);
+                    code1.Add(0);
+                    code1.Add(1);
+                    code1.Add(0);
+                    code1.Add(0);
+                    code1.Add(0);
+                    code1.Add(1);
+                }   
             }
-                
-            nbtot = chainetot.Length;
 
             //-----------------------Vérification--------------------------
-            Console.Write(chainetot + " || " + nbtot + "\n" + "\n");
+            Console.Write("\n----------------LISTE--------------\n");
+            int compteur = 1;
+            foreach (byte element in code1)
+            {
+                Console.Write(element);
+                if (compteur % 8 == 0)
+                {
+                    Console.Write(" ");
+                }
+                compteur++;
+            }
+            Console.Write(" || " +code1.Count);
+            Console.Write("\n\n");
 
             //-----------------------ETAPE 7--------------------------
-            string convertion = null;
             int nouveau = 0;
+            int[] spliteur = new int[8];
 
-            for (int i = 0; i<chainetot.Length; i+=8)
+            for (int i = 0; i < code1.Count; i += 8)
             {
-                convertion = null;
                 for (int j = 0; j < 8; j++)
                 {
-                    convertion += chainetot[i+j];
+                    spliteur[j] = code1[i + j];
                 }
 
                 nouveau = 0;
-
                 for (int k = 0; k < 8; k++)
                 {
-                    if (convertion[k] == '1') nouveau += (int)Math.Pow(2, 8-k-1);
+                    if (spliteur[k] == (byte)1) nouveau += (int)Math.Pow(2, 8 - k - 1);
                 }
-                Console.Write(nouveau + " ");
-                
+                code2.Add((byte)nouveau);
+            }
+            foreach (byte element in code2)
+            {
+                Console.Write(element +" ");
             }
 
             //-----------------------Vérification--------------------------
+
+            byte[] code2tab = new byte[code2.Count];
+
+
+            //byte[] ecc = ReedSolomonAlgorithm.Encode(code2tab, ec_octet, ErrorCorrectionCodeType.QRCode);
+
+
+
             Console.ReadKey();
         }
 
@@ -1017,7 +1089,6 @@ namespace TD_2
                 } 
                 else d += '0';
             }
-            //Console.WriteLine(a + " + " + b + " = " +memoire + " | " +d);
             return d;
         }
 

@@ -77,16 +77,17 @@ namespace TD_2
                         "\n13 - Coder une image dans une image" +
                         "\n14 - Décoder une image dans une image" +
                         "\n15 - Générer un QR Code" +
+                        "\n16 - Test" +
                         "\n");
                     Console.Write("Veuillez saisir le numéro de l'action désirée -> ");
                     int lecture_action = Convert.ToInt32(Console.ReadLine());
 
-                    if (lecture_action <= 0 || lecture_action > 15)
+                    if (lecture_action <= 0 || lecture_action > 16)
                     {
-                        while (lecture_action <= 0 || lecture_action > 15)
+                        while (lecture_action <= 0 || lecture_action > 16)
                         {
                             Console.WriteLine("\n********** Valeur erronée ! **********");
-                            Console.Write("\nVeuillez saisir un numéro valide entre 1 et 15 -> ");
+                            Console.Write("\nVeuillez saisir un numéro valide entre 1 et 16 -> ");
                             lecture_action = Convert.ToInt32(Console.ReadLine());
                         }
                     }
@@ -160,6 +161,9 @@ namespace TD_2
                             Console.WriteLine("Veuillez saisir le lien à convertir -->");
                             string mot = (string)Console.ReadLine();
                             image.QR_Code(mot);
+                            break;
+                        case 16:
+                            image.Test();
                             break;
                     }
                     Console.Clear();
