@@ -1052,6 +1052,27 @@ namespace TD_2
             {
                 Console.Write(element +" ");
             }
+            Console.Write("\n----------------LISTE--------------\n");
+            for (int i = 0; i < code1.Count; i += 8)
+            {
+                for (int j = 0; j < 8; j++)
+                {
+                    spliteur[j] = code1[i + j];
+                }
+                //Console.Write(" " +spliteur[0] + spliteur[1] + spliteur[2] + spliteur[3] + spliteur[4] + spliteur[5] + spliteur[6] + spliteur[7]+ " ");
+                nouveau = 0;
+                for (int k = 0; k < 8; k++)
+                {
+                    if (spliteur[k] == (byte)1) nouveau += (int)Math.Pow(2, 8 - k - 1);
+                }
+                code2.Add((byte)nouveau);
+                //Console.Write(nouveau + " \n");
+            }
+            foreach (byte element in code2)
+            {
+                Console.Write(element +" ");
+            }
+
 
             //-----------------------Vérification--------------------------
 
