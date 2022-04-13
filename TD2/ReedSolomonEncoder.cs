@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace ReedSolomon
+namespace TD_2
 {
     /*
     * Copyright 2008 ZXing authors

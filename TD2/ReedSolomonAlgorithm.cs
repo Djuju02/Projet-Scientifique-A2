@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ReedSolomon
+namespace TD_2
 {
     public enum ErrorCorrectionCodeType
     {

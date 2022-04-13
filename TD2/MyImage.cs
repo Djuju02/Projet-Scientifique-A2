@@ -436,7 +436,7 @@ namespace TD_2
                     else newmatrice_image_RGB[i, j] = p;
                 }
             }
-            
+
             GetHauteur = new_hauteur;
             GetLargeur = new_largeur;
             GetMatrice_image_RGB = newmatrice_image_RGB;
@@ -656,7 +656,7 @@ namespace TD_2
                     int[] tab_r = new int[256];
                     int[] tab_g = new int[256];
                     int[] tab_b = new int[256];
-                    
+
                     Pixel[,] histo = new Pixel[100, 3 * 256 + 20];
                     Pixel p = new Pixel(0, 0, 0);
                     Pixel r = new Pixel(255, 0, 0);
@@ -670,7 +670,7 @@ namespace TD_2
                         }
                     }
 
-                    for (int i = 0; i<GetMatrice_image_RGB.GetLength(0); i++)
+                    for (int i = 0; i < GetMatrice_image_RGB.GetLength(0); i++)
                     {
                         for (int j = 0; j < GetMatrice_image_RGB.GetLength(1); j++)
                         {
@@ -679,7 +679,7 @@ namespace TD_2
                             tab_b[GetMatrice_image_RGB[i, j].GetBleu]++;
                         }
                     }
-                    
+
                     int maxr = 0;
                     int maxg = 0;
                     int maxb = 0;
@@ -693,9 +693,9 @@ namespace TD_2
 
                     for (int j = 0; j <= 255; j++)
                     {
-                        tab_r[j] = (tab_r[j] * 100/ maxr) ;
-                        tab_g[j] = (tab_g[j] * 100/ maxg) ;
-                        tab_b[j] = (tab_b[j] * 100/ maxb) ;
+                        tab_r[j] = (tab_r[j] * 100 / maxr);
+                        tab_g[j] = (tab_g[j] * 100 / maxg);
+                        tab_b[j] = (tab_b[j] * 100 / maxb);
                     }
 
                     for (int i = 0; i <= 255; i++)
@@ -712,7 +712,7 @@ namespace TD_2
 
                         for (int j = 0; j <= tab_b[i] && j <= 99; j++)
                         {
-                            histo[j, i + 256*2 + 10*2] = b;
+                            histo[j, i + 256 * 2 + 10 * 2] = b;
                         }
 
                         for (int j = 0; j <= tab_r[i] && j <= 99; j++)
@@ -730,7 +730,7 @@ namespace TD_2
                             histo[j, i + 256 * 3 + 10 * 3] = b;
                         }
                     }
-                    
+
                     GetHauteur = histo.GetLength(0);
                     GetLargeur = histo.GetLength(1);
                     GetMatrice_image_RGB = histo;
@@ -759,7 +759,7 @@ namespace TD_2
                     {
                         for (int j = 0; j < GetMatrice_image_RGB.GetLength(1); j++)
                         {
-                            tab_gris[(GetMatrice_image_RGB[i, j].GetRouge+GetMatrice_image_RGB[i, j].GetVert+GetMatrice_image_RGB[i, j].GetBleu)/3]++;
+                            tab_gris[(GetMatrice_image_RGB[i, j].GetRouge + GetMatrice_image_RGB[i, j].GetVert + GetMatrice_image_RGB[i, j].GetBleu) / 3]++;
                         }
                     }
 
@@ -909,7 +909,7 @@ namespace TD_2
             code1.Add(0);
             code1[1] += 2;
 
-            foreach(byte element in code1)
+            foreach (byte element in code1)
             {
                 Console.WriteLine(element);
             }
@@ -933,7 +933,7 @@ namespace TD_2
             //-----------------------ETAPE 2--------------------------
 
             int memoire = mot.Length;
-
+            int version = Version(memoire);
             for (int puissance = 8; puissance >= 0; puissance--)
             {
                 if (memoire - Math.Pow(2, puissance) >= 0)
@@ -946,18 +946,18 @@ namespace TD_2
 
             //-----------------------ETAPE 3--------------------------
 
-            for (int i = 0; i < mot.Length-1; i += 2)
+            for (int i = 0; i < mot.Length - 1; i += 2)
             {
                 string a = ConvertionHexa(ConvertionEquivalent((int)mot[i]), ConvertionEquivalent((int)mot[i + 1]));
-                foreach(char lettre in a)
+                foreach (char lettre in a)
                 {
                     if (lettre == '1') code1.Add(1);
                     else code1.Add(0);
                 }
             }
-            if (mot.Length%2 != 0)
+            if (mot.Length % 2 != 0)
             {
-                string a = ConvertionHexa(ConvertionEquivalent((int)mot[mot.Length - 1]),0);
+                string a = ConvertionHexa(ConvertionEquivalent((int)mot[mot.Length - 1]), 0);
                 foreach (char lettre in a)
                 {
                     if (lettre == '1') code1.Add(1);
@@ -969,18 +969,18 @@ namespace TD_2
 
             int nbtot = code1.Count;
 
-            if ((19*8 - nbtot) >= 4) 
+            if ((19 * 8 - nbtot) >= 4)
             {
                 code1.Add(0);
                 code1.Add(0);
                 code1.Add(0);
                 code1.Add(0);
             }
-            else while ((19 * 8 - nbtot)!=0) code1.Add(0);
+            else while ((19 * 8 - nbtot) != 0) code1.Add(0);
 
             //-----------------------ETAPE 5--------------------------
 
-            while (nbtot%8 != 0)
+            while (nbtot % 8 != 0)
             {
                 code1.Add(0);
                 nbtot--;
@@ -988,9 +988,9 @@ namespace TD_2
 
             //-----------------------ETAPE 6--------------------------
 
-            for(int i = ((19*8)-code1.Count)/8; i>0; i--)
+            for (int i = ((19 * 8) - code1.Count) / 8; i > 0; i--)
             {
-                if(((19*8 - code1.Count) /8) %2 != 0)
+                if (((19 * 8 - code1.Count) / 8) % 2 != 0)
                 {
                     code1.Add(1);
                     code1.Add(1);
@@ -1001,7 +1001,7 @@ namespace TD_2
                     code1.Add(0);
                     code1.Add(0);
                 }
-                    
+
                 else
                 {
                     code1.Add(0);
@@ -1012,7 +1012,7 @@ namespace TD_2
                     code1.Add(0);
                     code1.Add(0);
                     code1.Add(1);
-                }   
+                }
             }
 
             //-----------------------Vérification--------------------------
@@ -1027,7 +1027,7 @@ namespace TD_2
                 }
                 compteur++;
             }
-            Console.Write(" || " +code1.Count);
+            Console.Write(" || " + code1.Count);
             Console.Write("\n\n");
 
             //-----------------------ETAPE 7--------------------------
@@ -1050,18 +1050,56 @@ namespace TD_2
             }
             foreach (byte element in code2)
             {
-                Console.Write(element +" ");
+                Console.Write(element + " ");
             }
 
-            //-----------------------Vérification--------------------------
 
             byte[] code2tab = new byte[code2.Count];
 
+            for (int i = 0; i < code2tab.Length; i++) code2tab[i] = code2[i];
 
-            //byte[] ecc = ReedSolomonAlgorithm.Encode(code2tab, ec_octet, ErrorCorrectionCodeType.QRCode);
+            //-----------------------ETAPE 8--------------------------
+
+            int valeur = ValeurCorrecteur(version);
+            byte[] result = ReedSolomonAlgorithm.Encode(code2tab, valeur, ErrorCorrectionCodeType.QRCode);
+            Console.WriteLine("\n*****Code Correcteur*****");
+            foreach (byte element in result)
+            {
+                Console.Write(element + " ");
+            }
+
+            foreach (byte element in result)
+            {
+                int[] retour = Convertir_Int_To_Binairy(element);
+                foreach (byte val in retour) code1.Add(val);  
+            }
+
+
+            Console.Write("\n----------------LISTE--------------\n");
+            int compteur2 = 1;
+            foreach (byte element in code1)
+            {
+                Console.Write(element);
+                if (compteur2 % 8 == 0)
+                {
+                    Console.Write(" ");
+                }
+                compteur2++;
+            }
+
+            Console.Write(" || " + (code1.Count));
+            Console.Write("\n\n");
 
 
 
+            //-----------------------REMPLISSAGE--------------------------
+            Remplissage1();
+            Remplissage2(version);
+            Remplissage3();
+            Remplissage4(version);
+            Remplissage5(version, code1);
+            GetTaille_fichier = GetHauteur * GetLargeur * 3;
+            From_Image_To_File(filename);
             Console.ReadKey();
         }
 
@@ -1071,22 +1109,22 @@ namespace TD_2
             {
                 b = a;
                 a = 0;
-            }  
-            double c = Math.Pow(45, 1) * a + Math.Pow(45, 0)*b;
+            }
+            double c = Math.Pow(45, 1) * a + Math.Pow(45, 0) * b;
             int memoire = (int)c;
             string d = null;
             int code = 10;
 
             if (a != 0) code = 10;
             else code = 5;
-            
+
             for (int puissance = code; puissance >= 0; puissance--)
             {
                 if (c - Math.Pow(2, puissance) >= 0)
                 {
                     d += '1';
                     c -= Math.Pow(2, puissance);
-                } 
+                }
                 else d += '0';
             }
             return d;
@@ -1103,7 +1141,335 @@ namespace TD_2
             if (a == 58) c = 44;
             return c;
         }
-        //0123456789abcdefghijklmnopqrstuvwxyz $%*+-./:
+
+        public int Version(int longueur)
+        {
+            int version = 1;
+
+            switch (longueur)
+            {
+                case <25:
+                    version = 1;
+                    break;
+                case <47:
+                    version = 2;
+                    break;
+                case <77:
+                    version = 3;
+                    break;
+                case <114:
+                    version = 4;
+                    break;
+            }
+            GetHauteur = 21 + (version-1) * 4;
+            GetLargeur = 21 + (version-1) * 4;
+            Pixel[,] QRCode = new Pixel[GetHauteur, GetLargeur];
+
+            for (int i = 0; i < GetHauteur; i++)
+            {
+                for (int j = 0; j < GetLargeur; j++)
+                {
+                    QRCode[i, j] = new Pixel(79, 10, 30);
+                }
+            }       
+            GetMatrice_image_RGB = QRCode;
+            return version;
+        }
+
+        public int ValeurCorrecteur(int version)
+        {
+            int valeur = 7;
+            switch (version)
+            {
+                case 1:
+                    valeur = 7;
+                    break;
+                case 2:
+                    valeur = 11;
+                    break;
+                case 3:
+                    valeur = 13;
+                    break;
+                case 4:
+                    valeur = 17;
+                    break;
+            }
+            return valeur;
+        }
+
+        public byte[] Masque(int version)
+        {
+            byte[] masque = new byte[15];
+            byte[] prémasque1 = { 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 0, 0, 1, 0, 0 };
+            byte[] prémasque2 = { 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 0, 0, 1, 0, 0 };
+            byte[] prémasque3 = { 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 0, 0, 1, 0, 0 };
+            byte[] prémasque4 = { 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 0, 0, 1, 0, 0 };
+
+            switch (version)
+            {
+                case 1:
+                    masque = prémasque1;
+                    break;
+                case 2:
+                    masque = prémasque2;
+                    break;
+                case 3:
+                    masque = prémasque3;
+                    break;
+                case 4:
+                    masque = prémasque4;
+                    break;
+            }
+            return masque;
+        }
+
+        public void Remplissage1()
+        {
+            Pixel blanc = new Pixel(255, 255, 255);
+            Pixel noir = new Pixel(0, 0, 0);
+
+            //Remplissage Carré Bas Gauche
+            for (int i = 0; i <= 7; i++)
+            {
+                for (int j = 0; j <= 7; j++)
+                {
+                    GetMatrice_image_RGB[i, j] = blanc;
+                }
+            }
+            for (int i = 0; i<=6; i++)
+            {
+                for (int j = 0; j <=6; j++)
+                {
+                    GetMatrice_image_RGB[i, j] = noir;
+                }
+            }
+            for (int i = 1; i <= 5; i++)
+            {
+                for (int j = 1; j <= 5; j++)
+                {
+                    GetMatrice_image_RGB[i, j] = blanc;
+                }
+            }
+            for (int i = 2; i <= 4; i++)
+            {
+                for (int j = 2; j <= 4; j++)
+                {
+                    GetMatrice_image_RGB[i, j] = noir;
+                }
+            }
+
+            //Remplissage Carré Haut Gauche
+            for (int i = GetMatrice_image_RGB.GetLength(0)-1; i >= GetMatrice_image_RGB.GetLength(0) - 8; i--)
+            {
+                for (int j = 0; j <= 7; j++)
+                {
+                    GetMatrice_image_RGB[i, j] = blanc;
+                }
+            }
+            for (int i = GetMatrice_image_RGB.GetLength(0) - 1; i >= GetMatrice_image_RGB.GetLength(0) - 7; i--)
+            {
+                for (int j = 0; j <= 6; j++)
+                {
+                    GetMatrice_image_RGB[i, j] = noir;
+                }
+            }
+            for (int i = GetMatrice_image_RGB.GetLength(0) - 2; i >= GetMatrice_image_RGB.GetLength(0) - 6; i--)
+            {
+                for (int j = 1; j <= 5; j++)
+                {
+                    GetMatrice_image_RGB[i, j] = blanc;
+                }
+            }
+            for (int i = GetMatrice_image_RGB.GetLength(0) - 3; i >= GetMatrice_image_RGB.GetLength(0) - 5; i--)
+            {
+                for (int j = 2; j <= 4; j++)
+                {
+                    GetMatrice_image_RGB[i, j] = noir;
+                }
+            }
+
+            //Remplissage Carré Haut Droit
+            for (int i = GetMatrice_image_RGB.GetLength(0) - 1; i >= GetMatrice_image_RGB.GetLength(0) - 8; i--)
+            {
+                for (int j = GetMatrice_image_RGB.GetLength(1) - 1; j >= GetMatrice_image_RGB.GetLength(1) - 8; j--)
+                {
+                    GetMatrice_image_RGB[i, j] = blanc;
+                }
+            }
+            for (int i = GetMatrice_image_RGB.GetLength(0) - 1; i >= GetMatrice_image_RGB.GetLength(0) - 7; i--)
+            {
+                for (int j = GetMatrice_image_RGB.GetLength(1) - 1; j >= GetMatrice_image_RGB.GetLength(1) - 7; j--)
+                {
+                    GetMatrice_image_RGB[i, j] = noir;
+                }
+            }
+            for (int i = GetMatrice_image_RGB.GetLength(0) - 2; i >= GetMatrice_image_RGB.GetLength(0) - 6; i--)
+            {
+                for (int j = GetMatrice_image_RGB.GetLength(1) - 2; j >= GetMatrice_image_RGB.GetLength(1) - 6; j--)
+                {
+                    GetMatrice_image_RGB[i, j] = blanc;
+                }
+            }
+            for (int i = GetMatrice_image_RGB.GetLength(0) - 3; i >= GetMatrice_image_RGB.GetLength(0) - 5; i--)
+            {
+                for (int j = GetMatrice_image_RGB.GetLength(1) - 3; j >= GetMatrice_image_RGB.GetLength(1) - 5; j--)
+                {
+                    GetMatrice_image_RGB[i, j] = noir;
+                }
+            }
+        }
+
+        public void Remplissage2(int version)
+        {
+            Pixel blanc = new Pixel(255, 255, 255);
+            Pixel noir = new Pixel(0, 0, 0);
+            //Remplissage patterne
+            if (version > 1 && version < 5)
+            {
+                int a = 6;
+                int b = GetMatrice_image_RGB.GetLength(0) - 7;
+
+                for (int i = -2; i <= 2; i++)
+                {
+                    for (int j = -2; j <= 2; j++)
+                    {
+                        GetMatrice_image_RGB[a + i, b + j] = noir;
+                    }
+                }
+                for (int i = -1; i <= 1; i++)
+                {
+                    for (int j = -1; j <= 1; j++)
+                    {
+                        GetMatrice_image_RGB[a + i, b + j] = blanc;
+                    }
+                }
+                GetMatrice_image_RGB[a, b] = noir;
+            }
+        }
+
+        public void Remplissage3()
+        {
+            Pixel blanc = new Pixel(255, 255, 255);
+            Pixel noir = new Pixel(0, 0, 0);
+
+            //Remplissage Carré noir
+            GetMatrice_image_RGB[7, 8] = noir;
+
+            //Remplissage Allignement droite
+            for (int i = 8; i <= GetMatrice_image_RGB.GetLength(0) - 9; i++)
+            {
+                if (GetMatrice_image_RGB[i - 1, 6].GetRouge == 0) GetMatrice_image_RGB[i, 6] = blanc;
+                else GetMatrice_image_RGB[i, 6] = noir;
+            }
+
+            for (int j = 8; j <= GetMatrice_image_RGB.GetLength(1) - 9; j++)
+            {
+                if (GetMatrice_image_RGB[GetMatrice_image_RGB.GetLength(0) - 7, j-1].GetRouge == 0) GetMatrice_image_RGB[GetMatrice_image_RGB.GetLength(0) - 7, j] = blanc;
+                else GetMatrice_image_RGB[GetMatrice_image_RGB.GetLength(0) - 7, j] = noir;
+            }
+        }
+
+        public void Remplissage4(int version)
+        {
+            byte[] masque = Masque(version);
+            Pixel blanc = new Pixel(255, 255, 255);
+            Pixel noir = new Pixel(0, 0, 0);
+            int compteur = 0;
+
+            for (int j = 0; j <= 7; j++)
+            {
+                if (GetMatrice_image_RGB[GetMatrice_image_RGB.GetLength(0) - 9, j].GetRouge != 0 && GetMatrice_image_RGB[GetMatrice_image_RGB.GetLength(0) - 9, j].GetRouge != 255)
+                {
+                    if (masque[compteur] == 0) GetMatrice_image_RGB[GetMatrice_image_RGB.GetLength(0) - 9, j] = blanc;
+                    else GetMatrice_image_RGB[GetMatrice_image_RGB.GetLength(0) - 9, j] = noir;
+                    compteur++;
+                }
+
+            }
+
+            for (int i = GetMatrice_image_RGB.GetLength(0) - 9; i <= GetMatrice_image_RGB.GetLength(0) - 1; i++)
+            {
+                if ((GetMatrice_image_RGB[i, 8].GetRouge != 0 && GetMatrice_image_RGB[i, 8].GetRouge != 255))
+                {
+                    if (masque[compteur] == 0) GetMatrice_image_RGB[i, 8] = blanc;
+                    else GetMatrice_image_RGB[i, 8] = noir;
+                    compteur++;
+                }
+            }
+
+            compteur = 0;
+            for (int i = 0; i <= 6; i++)
+            {
+                if(masque[compteur] == 0) GetMatrice_image_RGB[i, 8] = blanc;
+                else GetMatrice_image_RGB[i,8] = noir;
+                compteur++;
+            }
+
+            for (int j = GetMatrice_image_RGB.GetLength(1) - 8; j <= GetMatrice_image_RGB.GetLength(0) - 1; j++)
+            {
+                if (masque[compteur] == 0) GetMatrice_image_RGB[GetMatrice_image_RGB.GetLength(0) - 9, j] = blanc;
+                else GetMatrice_image_RGB[GetMatrice_image_RGB.GetLength(0) - 9, j] = noir;
+                compteur++;
+            }
+        }
+
+        public void Remplissage5(int version, List<byte> code)
+        {
+            Pixel blanc = new Pixel(255, 255, 255);
+            Pixel noir = new Pixel(0, 0, 0);
+            int compteur = 0;
+            int i = 0;
+            int j = GetMatrice_image_RGB.GetLength(1) - 1;
+
+            while (j > 0)
+            {
+                while (i != GetMatrice_image_RGB.GetLength(0))
+                {
+                    if (compteur < code.Count) compteur += RemplissageCondition(i, j, code[compteur]);
+                    j--;
+                    if (compteur < code.Count) compteur += RemplissageCondition(i, j, code[compteur]);
+                    j++;
+                    i++;
+                }
+                i--;
+                j -= 2;
+                if (j == 6) j--;
+
+                while (i >= 0)
+                {
+                    if (compteur < code.Count) compteur += RemplissageCondition(i, j, code[compteur]);
+                    j--;
+                    if (compteur < code.Count) compteur += RemplissageCondition(i, j, code[compteur]);
+                    j++;
+                    i--;
+                }
+                i++;
+                j -= 2;
+            }
+        }
+
+        public int RemplissageCondition(int i, int j, byte val)
+        {
+            Pixel blanc = new Pixel(255, 255, 255);
+            Pixel noir = new Pixel(0, 0, 0);
+            int a = 0;
+            if (GetMatrice_image_RGB[i, j].GetRouge != 0 && GetMatrice_image_RGB[i, j].GetRouge != 255)
+            {
+                if (val == 1)
+                {
+                    if ((i + j) % 2 == 0) GetMatrice_image_RGB[i, j] = blanc;
+                    else GetMatrice_image_RGB[i, j] = noir;
+                }
+                else
+                {
+                    if ((i + j) % 2 == 0) GetMatrice_image_RGB[i, j] = noir;
+                    else GetMatrice_image_RGB[i, j] = blanc;
+                }
+                a++;
+            }
+            return a;
+        }
+
     }
 }
 

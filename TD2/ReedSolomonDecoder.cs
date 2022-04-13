@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 
-namespace ReedSolomon
+namespace TD_2
 {
     /*
     * Copyright 2007 ZXing authors
