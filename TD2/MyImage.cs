@@ -941,6 +941,28 @@ namespace TD_2
                     code1.Add(1);
                     memoire -= (int)Math.Pow(2, puissance);
                 }
+                    memoire -= (int)Math.Pow(2, puissance);
+                }
+                else
+                {
+                    indi_nb_char += '0';
+                    code1.Add(0);
+                }
+=========
+                    code1.Add(1);
+                    memoire -= (int)Math.Pow(2, puissance);
+                }
+                    memoire -= (int)Math.Pow(2, puissance);
+                }
+                else
+                {
+                    indi_nb_char += '0';
+                    code1.Add(0);
+                }
+=========
+                    code1.Add(1);
+                    memoire -= (int)Math.Pow(2, puissance);
+                }
                 else code1.Add(0);
             }
 
