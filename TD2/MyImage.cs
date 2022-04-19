@@ -968,15 +968,16 @@ namespace TD_2
             //-----------------------ETAPE 4--------------------------
 
             int nbtot = code1.Count;
+            int nbbit = ValeurBit(version);
 
-            if ((19 * 8 - nbtot) >= 4)
+            if ((nbbit - nbtot) >= 4)
             {
                 code1.Add(0);
                 code1.Add(0);
                 code1.Add(0);
                 code1.Add(0);
             }
-            else while ((19 * 8 - nbtot) != 0) code1.Add(0);
+            else while ((nbbit - nbtot) != 0) code1.Add(0);
 
             //-----------------------ETAPE 5--------------------------
 
@@ -988,9 +989,9 @@ namespace TD_2
 
             //-----------------------ETAPE 6--------------------------
 
-            for (int i = ((19 * 8) - code1.Count) / 8; i > 0; i--)
+            for (int i = ((nbbit) - code1.Count) / 8; i > 0; i--)
             {
-                if (((19 * 8 - code1.Count) / 8) % 2 != 0)
+                if (((nbbit - code1.Count) / 8) % 2 != 0)
                 {
                     code1.Add(1);
                     code1.Add(1);
@@ -1090,6 +1091,13 @@ namespace TD_2
             Console.Write(" || " + (code1.Count));
             Console.Write("\n\n");
 
+            code1.Add(0);
+            code1.Add(0);
+            code1.Add(0);
+            code1.Add(0);
+            code1.Add(0);
+            code1.Add(0);
+            code1.Add(0);
 
 
             //-----------------------REMPLISSAGE--------------------------
@@ -1185,17 +1193,43 @@ namespace TD_2
                     valeur = 7;
                     break;
                 case 2:
-                    valeur = 11;
+                    valeur = 10;
                     break;
                 case 3:
-                    valeur = 13;
+                    valeur = 15;
                     break;
                 case 4:
-                    valeur = 17;
+                    valeur = 20;
                     break;
             }
             return valeur;
         }
+
+        public int ValeurBit(int version)
+        {
+            int valeur = 7;
+            switch (version)
+            {
+                case 1:
+                    valeur = 152;
+                    break;
+                case 2:
+                    valeur = 272;
+                    break;
+                case 3:
+                    valeur = 440;
+                    break;
+                case 4:
+                    valeur = 640;
+                    break;
+            }
+            return valeur;
+
+        }
+
+
+
+
 
         public byte[] Masque(int version)
         {
@@ -1204,7 +1238,6 @@ namespace TD_2
             byte[] prémasque2 = { 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 0, 0, 1, 0, 0 };
             byte[] prémasque3 = { 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 0, 0, 1, 0, 0 };
             byte[] prémasque4 = { 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 0, 0, 1, 0, 0 };
-
             switch (version)
             {
                 case 1:
@@ -1469,7 +1502,6 @@ namespace TD_2
             }
             return a;
         }
-
     }
 }
 
